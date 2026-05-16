@@ -1,0 +1,25 @@
+# =============================================================================
+# Cloudflare Workers Builds konfiguracija
+#
+# Deploy-uje Angular SPA kao static assets preko novog Workers static assets API-ja
+# (zamjena za klasični Cloudflare Pages).
+#
+# Workers Builds proces:
+#  1. Klonira repo
+#  2. Pokrene "Build command" iz Cloudflare dashboard-a:
+#       cd frontend && npm install && npm run build
+#  3. Pokrene "Deploy command" (npx wrangler deploy) — koji čita ovaj fajl
+#  4. Wrangler upload-uje fajlove iz [assets].directory na Cloudflare CDN
+# =============================================================================
+
+name = "stolarija-sikanjic"
+compatibility_date = "2025-01-01"
+
+[assets]
+# Putanja je relativna u odnosu na repo root (gdje stoji ovaj wrangler.toml)
+directory = "./frontend/dist/carpentry-shop-frontend/browser"
+
+# SPA mode: za sve nepoznate rute služi index.html sa 200 statusom
+# Tako Angular router preuzima nakon initial loada — npr. ako neko ode direktno
+# na /galerija, dobije index.html koji potom rendera taj view.
+not_found_handling = "single-page-application"
