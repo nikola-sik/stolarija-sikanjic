@@ -7,5 +7,5 @@
  */
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://CHANGE-ME-AFTER-RAILWAY-DEPLOY.up.railway.app/api/v1',
+  apiBaseUrl: 'https://stolarija-sikanjic-production.up.railway.app/api/v1',
 } as const;
