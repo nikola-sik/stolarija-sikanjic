@@ -1,0 +1,35 @@
+# ============================================================
+# Root .gitignore - dopuna pored backend/.gitignore i frontend/.gitignore
+# ============================================================
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logovi
+*.log
+logs/
+
+# Environment fajlovi (NIKAD ne commitati prave produkcione vrijednosti)
+.env
+.env.local
+.env.*.local
+*.env
+
+# Build outputs
+**/target/
+**/dist/
+**/node_modules/
+**/.angular/cache/
+
+# Lokalni dev fajlovi
+docker-compose.override.yml
+application-local.yml

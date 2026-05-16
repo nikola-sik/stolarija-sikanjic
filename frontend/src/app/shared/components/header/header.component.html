@@ -1,0 +1,122 @@
+<header
+  class="fixed left-0 right-0 top-0 z-50 transition-all duration-500"
+  [ngClass]="scrolled() ? 'bg-wood-50/95 backdrop-blur-md shadow-sm py-3' : 'py-5'"
+>
+  <div class="container-wide flex items-center justify-between">
+    <!-- Logo -->
+    <a
+      routerLink="/"
+      class="group flex items-center gap-3 transition-opacity hover:opacity-80"
+      [attr.aria-label]="business()?.name"
+      (click)="closeMobile()"
+    >
+      <!-- Brand mark (real logo) -->
+      <img
+        [src]="business()?.logo"
+        [alt]="business()?.name"
+        width="48"
+        height="48"
+        class="h-12 w-12 rounded-full object-cover shadow-md ring-1 ring-wood-200/30 transition-transform group-hover:scale-105"
+      />
+      <div class="flex flex-col leading-none">
+        <span
+          class="font-serif text-xl font-medium tracking-wide transition-colors md:text-2xl"
+          [ngClass]="scrolled() ? 'text-wood-900' : 'text-wood-50'"
+        >
+          {{ business()?.shortName }}
+        </span>
+        <span
+          class="mt-0.5 text-[10px] uppercase tracking-[0.2em] transition-colors"
+          [ngClass]="scrolled() ? 'text-wood-600' : 'text-wood-200'"
+        >
+          Stolarska radnja
+        </span>
+      </div>
+    </a>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden items-center gap-1 lg:flex">
+      @for (link of navigation(); track link.path) {
+        <a
+          [routerLink]="link.path"
+          [routerLinkActiveOptions]="{ exact: !!link.exact }"
+          routerLinkActive="!text-wood-700 after:!w-full"
+          class="relative px-5 py-2 text-sm font-medium uppercase tracking-wider transition-colors
+                 after:absolute after:bottom-0 after:left-1/2 after:h-0.5 after:w-0 after:-translate-x-1/2
+                 after:bg-wood-700 after:transition-all after:duration-300 hover:after:w-full"
+          [ngClass]="scrolled() ? 'text-wood-800 hover:text-wood-700' : 'text-wood-50 hover:text-cream'"
+        >
+          {{ link.label }}
+        </a>
+      }
+    </nav>
+
+    <!-- Kontakt CTA + admin link + mobile button -->
+    <div class="flex items-center gap-4">
+      @if (isAuthenticated()) {
+        <a
+          routerLink="/admin"
+          class="hidden items-center gap-2 rounded-full border px-4 py-1.5 text-xs uppercase tracking-wider font-medium transition-all lg:flex"
+          [ngClass]="scrolled() ? 'border-wood-700 text-wood-700 hover:bg-wood-700 hover:text-wood-50' : 'border-wood-50 text-wood-50 hover:bg-wood-50 hover:text-wood-900'"
+        >
+          Admin panel
+        </a>
+      }
+      <a
+        [href]="'tel:' + contact()?.phone"
+        class="hidden items-center gap-2 text-sm font-medium transition-colors lg:flex"
+        [ngClass]="scrolled() ? 'text-wood-800 hover:text-wood-700' : 'text-wood-50 hover:text-cream'"
+      >
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+        <span>{{ contact()?.phone }}</span>
+      </a>
+
+      <button
+        class="lg:hidden flex h-10 w-10 items-center justify-center rounded transition-colors"
+        [ngClass]="scrolled() ? 'text-wood-900' : 'text-wood-50'"
+        (click)="toggleMobile()"
+        [attr.aria-label]="mobileOpen() ? 'Zatvori meni' : 'Otvori meni'"
+      >
+        @if (mobileOpen()) {
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        } @else {
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 12h18M3 6h18M3 18h18"/>
+          </svg>
+        }
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  @if (mobileOpen()) {
+    <div class="lg:hidden absolute left-0 right-0 top-full bg-wood-50 border-t border-wood-200 shadow-lg animate-fade-in">
+      <nav class="container-wide flex flex-col py-4">
+        @for (link of navigation(); track link.path) {
+          <a
+            [routerLink]="link.path"
+            [routerLinkActiveOptions]="{ exact: !!link.exact }"
+            routerLinkActive="text-wood-700 bg-wood-100"
+            class="px-4 py-3 text-base font-medium text-wood-800 rounded transition-colors hover:bg-wood-100"
+            (click)="closeMobile()"
+          >
+            {{ link.label }}
+          </a>
+        }
+        <a
+          [href]="'tel:' + contact()?.phone"
+          class="mt-2 flex items-center gap-2 border-t border-wood-200 px-4 pt-4 text-sm text-wood-700"
+        >
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+          {{ contact()?.phone }}
+        </a>
+      </nav>
+    </div>
+  }
+</header>

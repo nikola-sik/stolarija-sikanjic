@@ -1,0 +1,93 @@
+<div class="px-6 py-8 lg:px-12 lg:py-12">
+  <!-- Header -->
+  <div class="mb-10">
+    <p class="text-sm uppercase tracking-[0.2em] text-wood-500">Dashboard</p>
+    <h1 class="mt-2 font-serif text-3xl text-wood-900 md:text-4xl">
+      {{ greeting }}, {{ currentUser()?.username }}
+    </h1>
+    <p class="mt-2 text-wood-700">Pregled aktivnosti i upravljanje sadržajem.</p>
+  </div>
+
+  @if (loading()) {
+    <div class="flex justify-center py-16">
+      <div class="h-10 w-10 animate-spin rounded-full border-4 border-wood-200 border-t-wood-700"></div>
+    </div>
+  } @else {
+    <!-- Stat cards -->
+    <div class="grid gap-5 md:grid-cols-3">
+      <!-- Galerija -->
+      <a routerLink="/admin/galerija" class="group rounded-lg border border-wood-200 bg-white p-6 transition-all hover:-translate-y-1 hover:border-wood-700 hover:shadow-xl">
+        <div class="flex items-start justify-between">
+          <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-wood-100 text-wood-700 transition-colors group-hover:bg-wood-700 group-hover:text-wood-50">
+            <app-icon name="package" [size]="24" />
+          </div>
+          <app-icon name="arrow-right" [size]="20" />
+        </div>
+        <p class="mt-5 font-serif text-4xl font-medium text-wood-900">{{ stats().galleryCount }}</p>
+        <p class="mt-1 text-sm uppercase tracking-wider text-wood-600">Stavki u galeriji</p>
+      </a>
+
+      <!-- Svi upiti -->
+      <a routerLink="/admin/upiti" class="group rounded-lg border border-wood-200 bg-white p-6 transition-all hover:-translate-y-1 hover:border-wood-700 hover:shadow-xl">
+        <div class="flex items-start justify-between">
+          <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-wood-100 text-wood-700 transition-colors group-hover:bg-wood-700 group-hover:text-wood-50">
+            <app-icon name="mail" [size]="24" />
+          </div>
+          <app-icon name="arrow-right" [size]="20" />
+        </div>
+        <p class="mt-5 font-serif text-4xl font-medium text-wood-900">{{ stats().submissionsTotal }}</p>
+        <p class="mt-1 text-sm uppercase tracking-wider text-wood-600">Ukupno upita</p>
+      </a>
+
+      <!-- Novi upiti -->
+      <a routerLink="/admin/upiti" class="group relative overflow-hidden rounded-lg border-2 border-forest-600 bg-gradient-to-br from-white to-forest-600/5 p-6 transition-all hover:-translate-y-1 hover:shadow-xl">
+        <div class="flex items-start justify-between">
+          <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-forest-600 text-wood-50">
+            <app-icon name="sparkles" [size]="24" />
+          </div>
+          @if (stats().submissionsNew > 0) {
+            <span class="inline-flex h-6 items-center rounded-full bg-forest-600 px-3 text-xs font-medium uppercase tracking-wider text-wood-50">
+              NOVO
+            </span>
+          }
+        </div>
+        <p class="mt-5 font-serif text-4xl font-medium text-wood-900">{{ stats().submissionsNew }}</p>
+        <p class="mt-1 text-sm uppercase tracking-wider text-wood-600">Novih upita</p>
+      </a>
+    </div>
+
+    <!-- Brze akcije -->
+    <div class="mt-12">
+      <h2 class="mb-5 font-serif text-2xl text-wood-900">Brze akcije</h2>
+      <div class="grid gap-4 md:grid-cols-2">
+        <a
+          routerLink="/admin/galerija"
+          class="group flex items-center gap-4 rounded-lg border border-wood-200 bg-white p-5 transition-all hover:border-wood-700 hover:shadow-md"
+        >
+          <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-forest-600 text-wood-50">
+            <app-icon name="package" [size]="22" />
+          </div>
+          <div class="flex-1">
+            <p class="font-medium text-wood-900">Dodaj novu sliku u galeriju</p>
+            <p class="text-sm text-wood-600">Upload + kategorija + opis</p>
+          </div>
+          <app-icon name="arrow-right" [size]="20" />
+        </a>
+
+        <a
+          routerLink="/admin/upiti"
+          class="group flex items-center gap-4 rounded-lg border border-wood-200 bg-white p-5 transition-all hover:border-wood-700 hover:shadow-md"
+        >
+          <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-wood-700 text-wood-50">
+            <app-icon name="mail" [size]="22" />
+          </div>
+          <div class="flex-1">
+            <p class="font-medium text-wood-900">Pregledaj nove upite</p>
+            <p class="text-sm text-wood-600">{{ stats().submissionsNew }} čeka tvoju pažnju</p>
+          </div>
+          <app-icon name="arrow-right" [size]="20" />
+        </a>
+      </div>
+    </div>
+  }
+</div>

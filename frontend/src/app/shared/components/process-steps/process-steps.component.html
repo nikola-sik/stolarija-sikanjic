@@ -1,0 +1,42 @@
+<section class="section bg-wood-100">
+  <div class="container-wide">
+    <!-- Header -->
+    <div class="mb-16 text-center md:mb-20">
+      <span class="section-label">{{ process()?.subtitle }}</span>
+      <h2 class="heading-lg text-wood-900">{{ process()?.title }}</h2>
+      <div class="ornament-divider"></div>
+    </div>
+
+    <!-- Steps grid - timeline na desktopu, vertikalni stack na mobile-u -->
+    <div class="relative">
+      <!-- Konektor linija na desktopu (iza kartica) -->
+      <div class="absolute left-0 right-0 top-1/2 hidden h-px -translate-y-1/2 bg-wood-300 lg:block"></div>
+
+      <div class="relative grid gap-6 md:grid-cols-2 lg:grid-cols-5">
+        @for (step of process()?.steps; track step.number; let i = $index) {
+          <div class="group relative">
+            <!-- Broj koraka — veliki, dekorativni -->
+            <div class="absolute -top-4 -right-2 z-0 font-serif text-7xl font-bold text-wood-200/60 select-none">
+              {{ step.number }}
+            </div>
+
+            <article class="relative z-10 flex h-full flex-col rounded-lg border border-wood-200 bg-white p-7 transition-all duration-500 hover:-translate-y-1 hover:border-wood-400 hover:shadow-xl">
+              <!-- Ikona -->
+              <div class="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-lg bg-forest-600 text-wood-50 transition-all duration-500 group-hover:scale-110">
+                <app-icon [name]="step.icon" [size]="28" />
+              </div>
+
+              <h3 class="mb-3 font-serif text-xl font-medium text-wood-900">
+                {{ step.title }}
+              </h3>
+
+              <p class="flex-1 text-sm leading-relaxed text-wood-700">
+                {{ step.description }}
+              </p>
+            </article>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>

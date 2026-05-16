@@ -1,0 +1,29 @@
+# Build artifacts (rebuiluju se u containeru)
+target/
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.classpath
+.project
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Local dev fajlovi
+application-local.yml
+application-local.properties

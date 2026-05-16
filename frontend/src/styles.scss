@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   CSS varijable - sinhronizovane sa site.config.json
+   ConfigService ih postavlja prilikom pokretanja aplikacije
+   ============================================================ */
+:root {
+  --color-primary: #5D4037;
+  --color-secondary: #A1887F;
+  --color-accent: #3E5C3E;
+  --color-background: #FAF7F2;
+  --color-text-dark: #2C1810;
+  --color-text-light: #6B5B4F;
+
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+}
+
+/* ============================================================
+   Bazni stilovi
+   ============================================================ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    @apply tracking-tight;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-wood-100;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-wood-500 rounded;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-wood-700;
+  }
+
+  /* Selection */
+  ::selection {
+    @apply bg-wood-700 text-wood-50;
+  }
+}
+
+/* ============================================================
+   Reusable komponente
+   ============================================================ */
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2
+           px-8 py-3.5 rounded
+           bg-wood-700 text-wood-50 font-medium
+           transition-all duration-300
+           hover:bg-wood-800 hover:shadow-lg hover:-translate-y-0.5
+           active:translate-y-0;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2
+           px-8 py-3.5 rounded
+           bg-transparent text-wood-700 font-medium
+           border-2 border-wood-700
+           transition-all duration-300
+           hover:bg-wood-700 hover:text-wood-50;
+  }
+
+  .btn-accent {
+    @apply inline-flex items-center justify-center gap-2
+           px-8 py-3.5 rounded
+           bg-forest-600 text-wood-50 font-medium
+           transition-all duration-300
+           hover:bg-forest-700 hover:shadow-lg hover:-translate-y-0.5;
+  }
+
+  .section {
+    @apply py-20 md:py-28 px-6 md:px-12 lg:px-20;
+  }
+
+  .container-wide {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .container-narrow {
+    @apply max-w-4xl mx-auto;
+  }
+
+  .heading-xl {
+    @apply text-5xl md:text-6xl lg:text-7xl font-serif font-medium leading-tight;
+  }
+
+  .heading-lg {
+    @apply text-4xl md:text-5xl font-serif font-medium leading-tight;
+  }
+
+  .heading-md {
+    @apply text-2xl md:text-3xl font-serif font-medium leading-tight;
+  }
+
+  .section-label {
+    @apply inline-block text-sm uppercase tracking-[0.2em] text-wood-600 font-medium mb-4;
+  }
+
+  /* Ornamentalni razdjelnik - etno detalj */
+  .ornament-divider {
+    @apply flex items-center justify-center gap-4 my-6;
+  }
+  .ornament-divider::before,
+  .ornament-divider::after {
+    content: '';
+    @apply h-px w-16 bg-wood-400;
+  }
+}

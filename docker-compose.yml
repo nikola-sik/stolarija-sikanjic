@@ -1,0 +1,50 @@
+# Lokalna razvojna infrastruktura.
+# Pokreni: docker compose up -d
+# Zaustavi: docker compose down
+#
+# PostgreSQL i MinIO se koriste od Faze 3 (backend API).
+# U Fazi 1 ovo NIJE OBAVEZNO da pokrećeš.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: showcase-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: showcase
+      POSTGRES_USER: showcase
+      POSTGRES_PASSWORD: showcase_dev_password
+    ports:
+      # Mapiramo na 5433 jer korisnik vjerovatno ima lokalni Postgres na 5432.
+      # Ako ti je 5432 slobodan, mozes vratiti "5432:5432".
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U showcase"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  minio:
+    image: minio/minio:latest
+    container_name: showcase-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin_dev
+    ports:
+      - "9000:9000"   # S3 API
+      - "9001:9001"   # Admin UI -> http://localhost:9001
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
+  minio_data:

@@ -1,0 +1,3 @@
+# Cloudflare Pages SPA fallback
+# Sve rute koje nisu asseti vraćaju index.html, Angular router preuzima
+/*    /index.html   200

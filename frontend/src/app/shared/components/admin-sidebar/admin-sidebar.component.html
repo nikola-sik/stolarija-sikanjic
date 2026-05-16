@@ -1,0 +1,80 @@
+<!-- Mobile toggle button (vidi se samo na mobile-u) -->
+<button
+  (click)="toggleMobile()"
+  class="fixed left-4 top-4 z-50 flex h-11 w-11 items-center justify-center rounded-lg bg-wood-900 text-wood-50 shadow-lg lg:hidden"
+  aria-label="Otvori meni"
+>
+  <app-icon name="layout-panel-left" [size]="22" />
+</button>
+
+<!-- Backdrop na mobile-u -->
+@if (mobileOpen()) {
+  <div
+    (click)="closeMobile()"
+    class="fixed inset-0 z-40 bg-wood-900/60 lg:hidden"
+    aria-hidden="true"
+  ></div>
+}
+
+<aside
+  class="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col bg-wood-900 text-wood-100 transition-transform duration-300 lg:translate-x-0"
+  [class.translate-x-0]="mobileOpen()"
+  [class.-translate-x-full]="!mobileOpen()"
+>
+  <!-- Logo + business name -->
+  <div class="flex items-center gap-3 border-b border-wood-800 px-6 py-5">
+    <img
+      [src]="business()?.logo"
+      [alt]="business()?.name"
+      width="40"
+      height="40"
+      class="h-10 w-10 rounded-full object-cover ring-1 ring-wood-700"
+    />
+    <div class="flex flex-col leading-none">
+      <span class="font-serif text-lg font-medium text-wood-50">
+        {{ business()?.shortName }}
+      </span>
+      <span class="mt-0.5 text-[10px] uppercase tracking-[0.2em] text-wood-400">
+        Admin panel
+      </span>
+    </div>
+  </div>
+
+  <!-- Menu -->
+  <nav class="flex flex-1 flex-col gap-1 px-3 py-6">
+    @for (item of menuItems; track item.path) {
+      <a
+        [routerLink]="item.path"
+        [routerLinkActiveOptions]="{ exact: !!item.exact }"
+        routerLinkActive="!bg-wood-700 !text-wood-50"
+        (click)="closeMobile()"
+        class="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-wood-300 transition-colors hover:bg-wood-800 hover:text-wood-50"
+      >
+        <app-icon [name]="item.icon" [size]="18" />
+        {{ item.label }}
+      </a>
+    }
+  </nav>
+
+  <!-- User info + logout -->
+  <div class="border-t border-wood-800 px-3 py-4">
+    @if (currentUser(); as user) {
+      <div class="mb-3 flex items-center gap-3 rounded-lg bg-wood-800 px-3 py-2">
+        <div class="flex h-9 w-9 items-center justify-center rounded-full bg-forest-600 text-sm font-bold uppercase text-wood-50">
+          {{ user.username.charAt(0) }}
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="truncate text-sm font-medium text-wood-50">{{ user.username }}</p>
+          <p class="text-[10px] uppercase tracking-wider text-wood-400">{{ user.role }}</p>
+        </div>
+      </div>
+    }
+    <button
+      (click)="logout()"
+      class="flex w-full items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-wood-300 transition-colors hover:bg-red-900/30 hover:text-red-200"
+    >
+      <app-icon name="arrow-right" [size]="18" />
+      Odjavi se
+    </button>
+  </div>
+</aside>

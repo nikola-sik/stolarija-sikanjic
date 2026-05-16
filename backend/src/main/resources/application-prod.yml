@@ -1,0 +1,66 @@
+# =============================================================================
+# PRODUKCIONI PROFIL
+#
+# Aktivira se sa SPRING_PROFILES_ACTIVE=prod
+# Sve sensitive vrijednosti DOLAZE iz env varijabli — nikad commitati ovdje.
+#
+# Required env vars (postavljaju se u Railway dashboard-u):
+#   DB_URL, DB_USERNAME, DB_PASSWORD           (Postgres - Railway daje auto)
+#   JWT_SECRET                                 (openssl rand -base64 64)
+#   JWT_ISSUER                                 (npr. stolarija-sikanjic)
+#   APP_ADMIN_USERNAME, APP_ADMIN_PASSWORD     (jaka lozinka u prod-u!)
+#   S3_ENDPOINT, S3_BUCKET, S3_ACCESS_KEY,
+#   S3_SECRET_KEY, S3_PUBLIC_URL, S3_REGION    (Cloudflare R2)
+#   CORS_ALLOWED_ORIGINS                       (frontend produkcioni URL)
+# =============================================================================
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: false  # u prod-u ne pretty-printamo SQL
+
+  # DevTools NE smije biti aktivan u prod-u
+  devtools:
+    restart:
+      enabled: false
+    livereload:
+      enabled: false
+
+server:
+  # Railway dinamički dodjeljuje port preko $PORT env varijable
+  port: ${PORT:8080}
+  # Tomcat tuning za container - manji thread pool za male instance
+  tomcat:
+    threads:
+      max: 50
+      min-spare: 5
+    accept-count: 50
+
+app:
+  storage:
+    # Cloudflare R2 koristi virtual-host style (ne path-style)
+    path-style-access: ${S3_PATH_STYLE:false}
+    # R2 ignoriše region ali SDK zahtjeva da postoji
+    region: ${S3_REGION:auto}
+
+management:
+  endpoint:
+    health:
+      show-details: never  # ne otkrivamo interne podatke neautentifikovanima
+  endpoints:
+    web:
+      exposure:
+        # samo health i info su javno izloženi
+        include: health, info
+
+logging:
+  level:
+    root: WARN
+    com.businessshowcase: INFO
+    org.springframework.security: WARN
+  pattern:
+    # JSON-ish format za log aggregator (Railway, Datadog...)
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n"

@@ -1,0 +1,129 @@
+<!-- Pozadina sa tamnom drvenom teksturom + slika -->
+<div class="relative flex min-h-screen items-center justify-center overflow-hidden bg-wood-900 p-4">
+  <!-- Suptilna pozadinska slika -->
+  <img
+    src="/assets/images/furniture.png"
+    alt=""
+    aria-hidden="true"
+    class="absolute inset-0 h-full w-full object-cover opacity-30 blur-sm"
+  />
+  <div class="absolute inset-0 bg-gradient-to-br from-wood-900/95 to-wood-800/90"></div>
+
+  <!-- Dekorativni elementi -->
+  <div class="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-wood-700/40 blur-3xl"></div>
+  <div class="absolute -left-32 -bottom-32 h-96 w-96 rounded-full bg-forest-600/30 blur-3xl"></div>
+
+  <!-- Login kartica -->
+  <div class="relative z-10 w-full max-w-md">
+    <!-- Logo iznad kartice -->
+    <div class="mb-8 flex flex-col items-center">
+      <img
+        [src]="business()?.logo"
+        [alt]="business()?.name"
+        class="h-20 w-20 rounded-full object-cover shadow-2xl ring-2 ring-wood-700"
+      />
+      <h1 class="mt-4 font-serif text-2xl text-wood-50">{{ business()?.shortName }}</h1>
+      <p class="mt-1 text-xs uppercase tracking-[0.3em] text-wood-400">Admin panel</p>
+    </div>
+
+    <!-- Forma -->
+    <div class="rounded-lg bg-wood-50 p-8 shadow-2xl">
+      <h2 class="font-serif text-2xl text-wood-900">Prijava</h2>
+      <p class="mt-1 text-sm text-wood-600">Unesite svoje pristupne podatke</p>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="mt-6 space-y-5">
+        <!-- Username -->
+        <div>
+          <label for="username" class="mb-1.5 block text-sm font-medium text-wood-800">
+            Korisničko ime
+          </label>
+          <input
+            id="username"
+            type="text"
+            formControlName="username"
+            autocomplete="username"
+            class="w-full rounded-lg border border-wood-300 bg-white px-4 py-3 text-wood-900 transition-colors focus:border-wood-700 focus:outline-none focus:ring-2 focus:ring-wood-700/20"
+            [class.border-red-500]="hasError('username', 'required') || hasError('username', 'minlength')"
+            placeholder="admin"
+          />
+          @if (hasError('username', 'required')) {
+            <p class="mt-1 text-xs text-red-600">Korisničko ime je obavezno</p>
+          }
+          @if (hasError('username', 'minlength')) {
+            <p class="mt-1 text-xs text-red-600">Najmanje 3 karaktera</p>
+          }
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label for="password" class="mb-1.5 block text-sm font-medium text-wood-800">
+            Lozinka
+          </label>
+          <div class="relative">
+            <input
+              id="password"
+              [type]="showPassword() ? 'text' : 'password'"
+              formControlName="password"
+              autocomplete="current-password"
+              class="w-full rounded-lg border border-wood-300 bg-white px-4 py-3 pr-12 text-wood-900 transition-colors focus:border-wood-700 focus:outline-none focus:ring-2 focus:ring-wood-700/20"
+              [class.border-red-500]="hasError('password', 'required') || hasError('password', 'minlength')"
+              placeholder="••••••••"
+            />
+            <button
+              type="button"
+              (click)="togglePassword()"
+              class="absolute right-3 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded text-wood-500 transition-colors hover:bg-wood-100 hover:text-wood-700"
+              [attr.aria-label]="showPassword() ? 'Sakrij lozinku' : 'Prikaži lozinku'"
+            >
+              @if (showPassword()) {
+                <app-icon name="x" [size]="16" />
+              } @else {
+                <app-icon name="star" [size]="16" />
+              }
+            </button>
+          </div>
+          @if (hasError('password', 'required')) {
+            <p class="mt-1 text-xs text-red-600">Lozinka je obavezna</p>
+          }
+          @if (hasError('password', 'minlength')) {
+            <p class="mt-1 text-xs text-red-600">Najmanje 8 karaktera</p>
+          }
+        </div>
+
+        <!-- Error -->
+        @if (errorMessage()) {
+          <div class="rounded-lg bg-red-50 p-4 text-sm text-red-800">
+            {{ errorMessage() }}
+          </div>
+        }
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          [disabled]="submitting()"
+          class="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          @if (submitting()) {
+            <div class="h-5 w-5 animate-spin rounded-full border-2 border-wood-50 border-t-transparent"></div>
+            Prijava u toku...
+          } @else {
+            Prijavi se
+            <app-icon name="arrow-right" [size]="18" />
+          }
+        </button>
+      </form>
+
+      <!-- Vrati se na sajt -->
+      <div class="mt-6 text-center">
+        <a routerLink="/" class="text-sm text-wood-600 transition-colors hover:text-wood-900">
+          ← Vrati se na sajt
+        </a>
+      </div>
+    </div>
+
+    <!-- Dev info -->
+    <p class="mt-6 text-center text-xs text-wood-500">
+      Default kredencijali za dev: <code class="font-mono text-wood-300">admin / admin123</code>
+    </p>
+  </div>
+</div>

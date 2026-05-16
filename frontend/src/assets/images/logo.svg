@@ -1,0 +1,62 @@
+<svg width="800" height="800" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C68A4A"/>
+      <stop offset="100%" stop-color="#9A6330"/>
+    </linearGradient>
+    <linearGradient id="wood" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#D9A066"/>
+      <stop offset="100%" stop-color="#8B5A2B"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="800" fill="url(#bg)"/>
+
+  <!-- Circular Saw -->
+  <circle cx="400" cy="240" r="90" fill="#6A3F1F"/>
+  <circle cx="400" cy="240" r="70" fill="url(#wood)"/>
+
+  <!-- Saw Teeth -->
+  <g fill="#4B2E18">
+    <polygon points="400,130 410,150 390,150"/>
+    <polygon points="470,150 455,165 445,145"/>
+    <polygon points="510,210 490,215 495,195"/>
+    <polygon points="510,270 490,265 495,285"/>
+    <polygon points="470,330 455,315 445,335"/>
+    <polygon points="400,350 390,330 410,330"/>
+    <polygon points="330,330 345,315 355,335"/>
+    <polygon points="290,270 310,265 305,285"/>
+    <polygon points="290,210 310,215 305,195"/>
+    <polygon points="330,150 345,165 355,145"/>
+  </g>
+
+  <!-- Hammer -->
+  <rect x="360" y="220" width="18" height="160" rx="8" transform="rotate(-35 360 220)" fill="#8B5A2B"/>
+  <rect x="320" y="180" width="70" height="24" rx="6" transform="rotate(-35 320 180)" fill="#CFCFCF"/>
+
+  <!-- Chisel -->
+  <rect x="440" y="220" width="14" height="150" rx="6" transform="rotate(35 440 220)" fill="#8B5A2B"/>
+  <polygon points="510,180 540,200 500,230" fill="#D9D9D9"/>
+
+  <!-- Cabinet -->
+  <rect x="500" y="170" width="120" height="160" rx="6" fill="url(#wood)" stroke="#4B2E18" stroke-width="4"/>
+  <line x1="560" y1="170" x2="560" y2="330" stroke="#4B2E18" stroke-width="3"/>
+  <circle cx="550" cy="250" r="4" fill="#4B2E18"/>
+  <circle cx="570" cy="250" r="4" fill="#4B2E18"/>
+
+  <!-- Text -->
+  <text x="400" y="470" text-anchor="middle" fill="#2E1A0F" font-size="34" font-family="Georgia" letter-spacing="5">
+    STOLARSKA RADNJA
+  </text>
+
+  <text x="400" y="560" text-anchor="middle" fill="#2E1A0F" font-size="82" font-family="Georgia" font-weight="bold">
+    ŠIKANJIĆ
+  </text>
+
+  <line x1="180" y1="620" x2="300" y2="620" stroke="#E6C29A" stroke-width="3"/>
+  <line x1="500" y1="620" x2="620" y2="620" stroke="#E6C29A" stroke-width="3"/>
+
+  <text x="400" y="630" text-anchor="middle" fill="#F5E2CC" font-size="28" font-family="Arial" letter-spacing="3">
+    IZRADA NAMJEŠTAJA PO MJERI
+  </text>
+</svg>

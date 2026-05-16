@@ -1,0 +1,234 @@
+{
+  "business": {
+    "name": "Stolarska radnja Šikanjić",
+    "shortName": "Šikanjić",
+    "tagline": "Zanat u svakom komadu",
+    "industry": "Izrada namještaja po mjeri",
+    "foundedYear": 2000,
+    "logo": "/assets/images/logo.png"
+  },
+  "contact": {
+    "phone": "+387 00 000 000",
+    "email": "info@sikanjic.ba",
+    "address": "Ulica i broj bb",
+    "city": "Grad",
+    "workingHours": "Pon - Pet: 08:00 - 17:00 · Sub: 09:00 - 13:00",
+    "social": {
+      "instagram": "https://instagram.com/",
+      "facebook": ""
+    },
+    "mapEmbedUrl": ""
+  },
+  "theme": {
+    "colors": {
+      "primary": "#5D4037",
+      "secondary": "#A1887F",
+      "accent": "#3E5C3E",
+      "background": "#FAF7F2",
+      "textDark": "#2C1810",
+      "textLight": "#6B5B4F"
+    },
+    "fonts": {
+      "heading": "'Playfair Display', Georgia, serif",
+      "body": "'Inter', system-ui, sans-serif"
+    }
+  },
+  "hero": {
+    "title": "Namještaj koji traje generacijama",
+    "subtitle": "Tradicija 20+ godina",
+    "description": "Ručno izrađen namještaj — od klasičnog masiva do modernih pločastih materijala. Kuhinje, plakari, vrata i sve što zamislite, prilagođeno vašem prostoru i ukusu.",
+    "primaryCta": { "label": "Pogledaj radove", "link": "/galerija" },
+    "secondaryCta": { "label": "Naruči po mjeri", "link": "/kontakt" },
+    "backgroundImage": "/assets/images/furniture.png"
+  },
+  "pageHeroes": {
+    "about": {
+      "label": "O nama",
+      "title": "Naša priča",
+      "subtitle": "Od 2000. godine pravimo namještaj za vaše domove"
+    },
+    "services": {
+      "label": "Usluge",
+      "title": "Šta radimo",
+      "subtitle": "Sve od skice do montaže — masiv ili pločasti materijali"
+    },
+    "gallery": {
+      "label": "Galerija",
+      "title": "Naši radovi",
+      "subtitle": "Pogledajte šta smo realizovali za naše klijente"
+    },
+    "contact": {
+      "label": "Kontakt",
+      "title": "Razgovarajmo o vašem projektu",
+      "subtitle": "Procjena i savjet su besplatni"
+    }
+  },
+  "about": {
+    "title": "O našoj radnji",
+    "subtitle": "Iskustvo od 2000. godine",
+    "paragraphs": [
+      "Stolarska radnja Šikanjić nastala je 2000. godine kao mali porodični posao posvećen klasičnom zanatu — radu sa punim drvetom. Hrast, jela, orah i bukva bili su naši prvi materijali, i ostali su naša najveća ljubav.",
+      "Vremenom su rasle i potrebe naših klijenata. Danas pored masivnog drveta radimo i pločasti namještaj — od iverice, MDF-a, šperploče i drugih savremenih materijala. Tako spajamo tradicionalni zanat sa modernim dizajnom, a vama dajemo slobodu izbora.",
+      "Bilo da želite klasičnu kuhinju od oraha ili moderan ugradni plakar sa kliznim vratima — kod nas ćete dobiti isti pristup: pažljivo planiranje, kvalitetnu izradu i namještaj koji se gradi da traje."
+    ],
+    "highlights": [
+      { "label": "Godina iskustva", "value": "25+" },
+      { "label": "Završenih projekata", "value": "200+" },
+      { "label": "Vrsta materijala", "value": "10+" },
+      { "label": "Domaća izrada", "value": "100%" }
+    ],
+    "image": "/assets/images/furniture.png"
+  },
+  "process": {
+    "title": "Kako radimo",
+    "subtitle": "Pet koraka od ideje do montaže",
+    "steps": [
+      {
+        "number": "01",
+        "icon": "message-circle",
+        "title": "Konsultacija",
+        "description": "Slušamo vaše ideje i potrebe. Razgovaramo o materijalima, stilu i budžetu — bez obaveze."
+      },
+      {
+        "number": "02",
+        "icon": "ruler",
+        "title": "Mjerenje",
+        "description": "Dolazimo na lokaciju i precizno mjerimo prostor. Bez ovog koraka — nema dobrog namještaja po mjeri."
+      },
+      {
+        "number": "03",
+        "icon": "pencil",
+        "title": "Dizajn i ponuda",
+        "description": "Pravimo vizualizaciju i transparentnu ponudu. Mijenjamo dok niste 100% zadovoljni."
+      },
+      {
+        "number": "04",
+        "icon": "hammer",
+        "title": "Izrada",
+        "description": "Radimo u našoj radionici po vašoj specifikaciji. Svaki spoj se provjerava prije isporuke."
+      },
+      {
+        "number": "05",
+        "icon": "truck",
+        "title": "Montaža",
+        "description": "Dovozimo i ugrađujemo u vašem prostoru. Garantujemo kvalitet svake spojnice."
+      }
+    ]
+  },
+  "services": [
+    {
+      "id": "kuhinje",
+      "title": "Kuhinje po mjeri",
+      "shortDescription": "Klasične i moderne kuhinje",
+      "description": "Projektujemo i izrađujemo kuhinje u potpunosti prilagođene vašem prostoru. Hrast i orah za klasičan izgled, iverica i MDF za modernije linije — biramo zajedno s vama.",
+      "icon": "chef-hat",
+      "featured": true
+    },
+    {
+      "id": "plakari",
+      "title": "Plakari i garderoberi",
+      "shortDescription": "Ugradni ormari i klizna vrata",
+      "description": "Maksimalno iskorištavanje prostora uz besprijekoran izgled. Klizne, krilne ili kombinovane vrata — od masiva ili pločastih materijala po vašem izboru.",
+      "icon": "package",
+      "featured": true
+    },
+    {
+      "id": "ulazna-vrata",
+      "title": "Ulazna vrata",
+      "shortDescription": "Masivna vrata od punog drveta",
+      "description": "Sigurna, topla i estetski savršena. Ulazna vrata od masivnog hrasta ili oraha koja ostavljaju utisak prvog kontakta sa vašim domom.",
+      "icon": "door-open",
+      "featured": true
+    },
+    {
+      "id": "unutrasnja-vrata",
+      "title": "Unutrašnja vrata",
+      "shortDescription": "Sobna vrata po mjeri",
+      "description": "Klasična od masiva ili moderna pločasta — vrata koja se uklapaju u svaki prostor i daju karakter sobi.",
+      "icon": "door-closed"
+    },
+    {
+      "id": "stepenice",
+      "title": "Drvene stepenice",
+      "shortDescription": "Unutrašnje stepenice i rukohvati",
+      "description": "Stepenice kao centralni element prostora. Pravo, zavojito ili spiralno — sve od kvalitetnog drveta sa pažljivo biranim detaljima.",
+      "icon": "stairs"
+    },
+    {
+      "id": "spavace-sobe",
+      "title": "Spavaće sobe",
+      "shortDescription": "Kreveti, komode i ugradni plakari",
+      "description": "Kompletna oprema spavaće sobe — od masivnih kreveta i komoda do modernih ugradnih plakara sa kliznim vratima. Sve usklađeno u istom stilu.",
+      "icon": "bed",
+      "featured": true
+    },
+    {
+      "id": "stolovi",
+      "title": "Stolovi i stolice",
+      "shortDescription": "Trpezarijski setovi",
+      "description": "Stolovi koji su srce trpezarije — masivni hrast ili orah, ili kombinacija sa modernim metalnim detaljima. Sa pratećim stolicama u istom dizajnu.",
+      "icon": "armchair"
+    },
+    {
+      "id": "obloge",
+      "title": "Drvene obloge",
+      "shortDescription": "Lamperija i panel zidovi",
+      "description": "Drvene obloge zidova i plafona donose toplinu i karakter svakom prostoru — od dnevne sobe do moderne kancelarije.",
+      "icon": "layout-panel-left"
+    },
+    {
+      "id": "restauracija",
+      "title": "Restauracija namještaja",
+      "shortDescription": "Obnova starog drvenog namještaja",
+      "description": "Vraćamo život starom namještaju — sa poštovanjem prema originalnoj izradi i materijalima. Tradicionalne tehnike, moderni rezultati.",
+      "icon": "wrench"
+    },
+    {
+      "id": "bastenski",
+      "title": "Baštenski namještaj",
+      "shortDescription": "Klupe, stolovi i sjenice za vanjski prostor",
+      "description": "Otporan na vremenske uslove, ali bez kompromisa u estetici. Za baštu, terasu ili dvorište — namještaj koji preživljava godišnja doba.",
+      "icon": "trees"
+    }
+  ],
+  "galleryCategories": [
+    { "id": "sve", "label": "Sve" },
+    { "id": "kuhinje", "label": "Kuhinje" },
+    { "id": "plakari", "label": "Plakari" },
+    { "id": "vrata", "label": "Vrata" },
+    { "id": "spavace-sobe", "label": "Spavaće sobe" },
+    { "id": "stolovi", "label": "Stolovi" },
+    { "id": "ostalo", "label": "Ostalo" }
+  ],
+  "galleryPlaceholders": [
+    { "id": "p1", "category": "kuhinje", "title": "Klasična hrastova kuhinja", "gradient": "from-wood-300 to-wood-500", "aspect": "aspect-[4/5]" },
+    { "id": "p2", "category": "plakari", "title": "Ugradni plakar od iverice", "gradient": "from-wood-400 to-wood-600", "aspect": "aspect-square" },
+    { "id": "p3", "category": "vrata", "title": "Masivna ulazna vrata", "gradient": "from-wood-600 to-wood-800", "aspect": "aspect-[4/5]" },
+    { "id": "p4", "category": "spavace-sobe", "title": "Krevet od oraha", "gradient": "from-wood-500 to-wood-700", "aspect": "aspect-square" },
+    { "id": "p5", "category": "stolovi", "title": "Trpezarijski sto - hrast", "gradient": "from-wood-400 to-forest-600", "aspect": "aspect-[4/3]" },
+    { "id": "p6", "category": "kuhinje", "title": "Moderna kuhinja - MDF", "gradient": "from-wood-200 to-wood-500", "aspect": "aspect-square" },
+    { "id": "p7", "category": "ostalo", "title": "Drvene obloge zidova", "gradient": "from-forest-500 to-forest-700", "aspect": "aspect-square" },
+    { "id": "p8", "category": "plakari", "title": "Garderober sa kliznim vratima", "gradient": "from-wood-300 to-wood-700", "aspect": "aspect-[4/5]" },
+    { "id": "p9", "category": "vrata", "title": "Unutrašnja vrata - klasik", "gradient": "from-wood-500 to-wood-800", "aspect": "aspect-[3/4]" },
+    { "id": "p10", "category": "stolovi", "title": "Radni sto od masiva", "gradient": "from-wood-400 to-wood-700", "aspect": "aspect-square" },
+    { "id": "p11", "category": "kuhinje", "title": "L-kuhinja sa ostrvom", "gradient": "from-wood-300 to-forest-600", "aspect": "aspect-[4/3]" },
+    { "id": "p12", "category": "spavace-sobe", "title": "Komoda od orahovine", "gradient": "from-wood-500 to-wood-800", "aspect": "aspect-square" }
+  ],
+  "seo": {
+    "title": "Stolarska radnja Šikanjić — Namještaj po mjeri od 2000.",
+    "description": "Stolarska radnja Šikanjić — kuhinje, plakari, vrata i namještaj po mjeri. Radimo masiv (puno drvo) i pločasti namještaj (iverica, MDF). Tradicija od 2000.",
+    "keywords": [
+      "stolar", "stolarija", "kuhinje po mjeri", "plakari", "vrata",
+      "namještaj po mjeri", "puno drvo", "iverica", "MDF", "pločasti namještaj",
+      "ugradni plakari", "Šikanjić"
+    ],
+    "ogImage": "/assets/images/furniture.png"
+  },
+  "navigation": [
+    { "label": "Početna", "path": "/", "exact": true },
+    { "label": "O nama", "path": "/o-nama" },
+    { "label": "Usluge", "path": "/usluge" },
+    { "label": "Galerija", "path": "/galerija" },
+    { "label": "Kontakt", "path": "/kontakt" }
+  ]
+}

@@ -1,0 +1,115 @@
+<app-page-hero
+  [label]="hero()?.about?.label || 'O nama'"
+  [title]="hero()?.about?.title || 'Naša priča'"
+  [subtitle]="hero()?.about?.subtitle || ''"
+  [backgroundImage]="about()?.image"
+/>
+
+<!-- ============================================================
+     STORY — paragraphs uz veliki citat
+     ============================================================ -->
+<section class="section bg-wood-50">
+  <div class="container-narrow">
+    <span class="section-label">{{ about()?.subtitle }}</span>
+    <h2 class="heading-lg text-wood-900">{{ about()?.title }}</h2>
+    <div class="ornament-divider !justify-start !my-8">
+      <svg class="h-4 w-4 text-wood-400" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/>
+      </svg>
+    </div>
+
+    @for (paragraph of about()?.paragraphs ?? []; track $index) {
+      <p class="mb-6 text-lg leading-relaxed text-wood-800">{{ paragraph }}</p>
+    }
+
+    <!-- Citat / istaknuto -->
+    <blockquote class="my-12 border-l-4 border-wood-700 bg-wood-100 py-6 pl-8 pr-6">
+      <p class="font-serif text-xl italic leading-relaxed text-wood-900 md:text-2xl">
+        "Namještaj koji pravimo nije samo predmet — on je dio doma koji ostaje generacijama."
+      </p>
+      <cite class="mt-3 block text-sm uppercase tracking-[0.2em] not-italic text-wood-600">
+        — Majstor {{ business()?.shortName }}
+      </cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ============================================================
+     STATS — istaknute brojke
+     ============================================================ -->
+<section class="relative overflow-hidden bg-wood-900 py-20 text-wood-50">
+  <div class="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-wood-700/30 blur-3xl"></div>
+  <div class="absolute -left-20 -bottom-20 h-72 w-72 rounded-full bg-forest-600/20 blur-3xl"></div>
+
+  <div class="container-wide relative z-10">
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+      @for (item of about()?.highlights ?? []; track item.label) {
+        <div class="text-center">
+          <div class="font-serif text-6xl font-medium text-cream md:text-7xl">{{ item.value }}</div>
+          <div class="mt-4 text-sm uppercase tracking-[0.2em] text-wood-300">{{ item.label }}</div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     VRIJEDNOSTI
+     ============================================================ -->
+<section class="section bg-wood-50">
+  <div class="container-wide">
+    <div class="mb-16 text-center">
+      <span class="section-label">Naše vrijednosti</span>
+      <h2 class="heading-lg text-wood-900">Kako razmišljamo o zanatu</h2>
+      <div class="ornament-divider"></div>
+    </div>
+
+    <div class="grid gap-6 md:grid-cols-2">
+      @for (value of values; track value.title) {
+        <article class="group flex items-start gap-5 rounded-lg border border-wood-200 bg-white p-7 transition-all duration-300 hover:border-wood-400 hover:shadow-lg">
+          <div class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-lg bg-wood-100 text-wood-700 transition-all duration-300 group-hover:bg-wood-700 group-hover:text-wood-50">
+            <app-icon [name]="value.icon" [size]="28" />
+          </div>
+          <div>
+            <h3 class="mb-2 font-serif text-xl font-medium text-wood-900">{{ value.title }}</h3>
+            <p class="leading-relaxed text-wood-700">{{ value.description }}</p>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROCES (shared komponenta)
+     ============================================================ -->
+<app-process-steps />
+
+<!-- ============================================================
+     CTA
+     ============================================================ -->
+<section class="relative overflow-hidden bg-wood-900 py-20 text-wood-50 md:py-24">
+  <div class="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-forest-600/30 blur-3xl"></div>
+  <div class="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-wood-700/40 blur-3xl"></div>
+
+  <div class="container-narrow relative z-10 px-6 text-center">
+    <span class="section-label !text-wood-300">Spremni za saradnju?</span>
+    <h2 class="heading-lg text-wood-50">
+      Pretvorimo vašu ideju<br>
+      <span class="italic text-cream">u nešto stvarno.</span>
+    </h2>
+    <p class="mx-auto mb-10 mt-6 max-w-xl text-wood-200">
+      Pozovite nas ili nam pošaljite poruku — procjena i savjet su uvijek besplatni.
+    </p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a [routerLink]="'/kontakt'" class="btn-primary !bg-cream !text-wood-900 hover:!bg-wood-50">
+        Pošalji upit
+        <app-icon name="arrow-right" [size]="18" />
+      </a>
+      <a [href]="'tel:' + contact()?.phone" class="btn-secondary !border-wood-300 !text-wood-100 hover:!bg-wood-50 hover:!text-wood-900 hover:!border-wood-50">
+        <app-icon name="phone" [size]="18" />
+        {{ contact()?.phone }}
+      </a>
+    </div>
+  </div>
+</section>

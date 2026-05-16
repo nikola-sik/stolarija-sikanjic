@@ -1,0 +1,207 @@
+<div class="px-6 py-8 lg:px-12 lg:py-12">
+  <!-- Header -->
+  <div class="mb-8">
+    <p class="text-sm uppercase tracking-[0.2em] text-wood-500">Admin / Upiti</p>
+    <h1 class="mt-2 font-serif text-3xl text-wood-900 md:text-4xl">Upiti sa kontakt forme</h1>
+    @if (page(); as p) {
+      <p class="mt-2 text-wood-700">{{ p.totalElements }} upita u kategoriji</p>
+    }
+  </div>
+
+  <!-- Filteri -->
+  <div class="mb-8 flex flex-wrap gap-2">
+    @for (f of filters; track f.value) {
+      <button
+        (click)="setFilter(f.value)"
+        class="rounded-full border px-4 py-1.5 text-sm font-medium transition-all"
+        [class.border-wood-700]="activeFilter() === f.value"
+        [class.bg-wood-700]="activeFilter() === f.value"
+        [class.text-wood-50]="activeFilter() === f.value"
+        [class.border-wood-300]="activeFilter() !== f.value"
+        [class.bg-white]="activeFilter() !== f.value"
+        [class.text-wood-700]="activeFilter() !== f.value"
+      >
+        {{ f.label }}
+      </button>
+    }
+  </div>
+
+  <!-- Loading -->
+  @if (loading()) {
+    <div class="flex justify-center py-16">
+      <div class="h-10 w-10 animate-spin rounded-full border-4 border-wood-200 border-t-wood-700"></div>
+    </div>
+  } @else if (!page() || page()!.content.length === 0) {
+    <!-- Empty state -->
+    <div class="rounded-lg border border-dashed border-wood-300 bg-white p-16 text-center">
+      <div class="mx-auto mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-wood-100 text-wood-500">
+        <app-icon name="mail" [size]="32" />
+      </div>
+      <p class="font-serif text-xl text-wood-900">Nema upita</p>
+      <p class="mt-2 text-sm text-wood-600">Kad neko popuni contact formu, upit će se pojaviti ovdje.</p>
+    </div>
+  } @else {
+    @if (page(); as p) {
+    <!-- Lista upita -->
+    <div class="overflow-hidden rounded-lg border border-wood-200 bg-white shadow-sm">
+      @for (sub of p.content; track sub.id) {
+        <div
+          class="border-b border-wood-100 last:border-b-0 transition-colors hover:bg-wood-50/50"
+          [ngClass]="(sub.status === 'NEW' && expandedId() !== sub.id) ? 'bg-forest-600/5' : ''"
+        >
+          <!-- Glavni red -->
+          <button
+            (click)="toggleExpand(sub.id, sub.status)"
+            class="flex w-full items-start gap-4 px-5 py-4 text-left"
+          >
+            <!-- Status indicator -->
+            <div
+              class="mt-1 h-2.5 w-2.5 flex-shrink-0 rounded-full"
+              [class.bg-forest-600]="sub.status === 'NEW'"
+              [class.bg-blue-500]="sub.status === 'READ'"
+              [class.bg-green-500]="sub.status === 'RESOLVED'"
+              [class.bg-wood-300]="sub.status === 'ARCHIVED'"
+            ></div>
+
+            <!-- Ime + email -->
+            <div class="flex-1 min-w-0">
+              <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <p class="font-medium text-wood-900">{{ sub.name }}</p>
+                <a [href]="'mailto:' + sub.email" class="text-sm text-wood-600 hover:underline" (click)="$event.stopPropagation()">
+                  {{ sub.email }}
+                </a>
+              </div>
+              <p class="mt-1 line-clamp-1 text-sm text-wood-700">{{ sub.message }}</p>
+            </div>
+
+            <!-- Topic + datum + status badge -->
+            <div class="hidden flex-shrink-0 flex-col items-end gap-1.5 md:flex">
+              @if (sub.topic) {
+                <span class="rounded bg-wood-100 px-2 py-0.5 text-[10px] uppercase tracking-wider text-wood-700">
+                  {{ sub.topic }}
+                </span>
+              }
+              <span class="text-xs text-wood-500">
+                {{ sub.createdAt | date: 'dd.MM.yyyy HH:mm' }}
+              </span>
+              <span
+                class="rounded-full px-2.5 py-0.5 text-[10px] uppercase tracking-wider"
+                [ngClass]="statusBadgeClass(sub.status)"
+              >
+                {{ sub.status }}
+              </span>
+            </div>
+
+            <!-- Chevron -->
+            <div
+              class="flex h-8 w-8 flex-shrink-0 items-center justify-center text-wood-500 transition-transform"
+              [class.rotate-90]="expandedId() === sub.id"
+            >
+              <app-icon name="arrow-right" [size]="18" />
+            </div>
+          </button>
+
+          <!-- Expanded detail -->
+          @if (expandedId() === sub.id) {
+            <div class="border-t border-wood-100 bg-wood-50/30 px-5 pb-5 pt-4 animate-fade-in">
+              <!-- Mobile: meta info -->
+              <div class="mb-4 flex flex-wrap items-center gap-3 md:hidden">
+                @if (sub.topic) {
+                  <span class="rounded bg-wood-100 px-2 py-0.5 text-[10px] uppercase tracking-wider text-wood-700">
+                    {{ sub.topic }}
+                  </span>
+                }
+                <span class="text-xs text-wood-500">
+                  {{ sub.createdAt | date: 'dd.MM.yyyy HH:mm' }}
+                </span>
+                <span class="rounded-full px-2.5 py-0.5 text-[10px] uppercase tracking-wider {{ statusBadgeClass(sub.status) }}">
+                  {{ sub.status }}
+                </span>
+              </div>
+
+              <!-- Kontakt info -->
+              <div class="mb-4 grid gap-2 text-sm md:grid-cols-2">
+                <div>
+                  <span class="text-wood-500">Email:</span>
+                  <a [href]="'mailto:' + sub.email" class="ml-2 text-wood-900 hover:underline">{{ sub.email }}</a>
+                </div>
+                @if (sub.phone) {
+                  <div>
+                    <span class="text-wood-500">Telefon:</span>
+                    <a [href]="'tel:' + sub.phone" class="ml-2 text-wood-900 hover:underline">{{ sub.phone }}</a>
+                  </div>
+                }
+              </div>
+
+              <!-- Poruka -->
+              <div class="mb-5 rounded-lg bg-white p-4 ring-1 ring-wood-200">
+                <p class="mb-2 text-xs uppercase tracking-wider text-wood-500">Poruka</p>
+                <p class="whitespace-pre-wrap text-wood-800">{{ sub.message }}</p>
+              </div>
+
+              <!-- Akcije -->
+              <div class="flex flex-wrap gap-2">
+                @if (sub.status !== 'READ') {
+                  <button
+                    (click)="updateStatus(sub.id, 'READ'); $event.stopPropagation()"
+                    class="rounded px-3 py-1.5 text-xs font-medium uppercase tracking-wider text-blue-700 transition-colors hover:bg-blue-50"
+                  >
+                    Označi kao pročitan
+                  </button>
+                }
+                @if (sub.status !== 'RESOLVED') {
+                  <button
+                    (click)="updateStatus(sub.id, 'RESOLVED'); $event.stopPropagation()"
+                    class="rounded px-3 py-1.5 text-xs font-medium uppercase tracking-wider text-green-700 transition-colors hover:bg-green-50"
+                  >
+                    Označi kao riješen
+                  </button>
+                }
+                @if (sub.status !== 'ARCHIVED') {
+                  <button
+                    (click)="updateStatus(sub.id, 'ARCHIVED'); $event.stopPropagation()"
+                    class="rounded px-3 py-1.5 text-xs font-medium uppercase tracking-wider text-wood-700 transition-colors hover:bg-wood-100"
+                  >
+                    Arhiviraj
+                  </button>
+                }
+                <button
+                  (click)="deleteSubmission(sub); $event.stopPropagation()"
+                  class="rounded px-3 py-1.5 text-xs font-medium uppercase tracking-wider text-red-700 transition-colors hover:bg-red-50"
+                >
+                  Briši
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Paginacija -->
+    @if (p.totalPages > 1) {
+      <div class="mt-6 flex items-center justify-between">
+        <p class="text-sm text-wood-600">
+          Strana {{ p.number + 1 }} od {{ p.totalPages }} ({{ p.totalElements }} ukupno)
+        </p>
+        <div class="flex gap-2">
+          <button
+            (click)="changePage(currentPage() - 1)"
+            [disabled]="currentPage() === 0"
+            class="rounded-lg border border-wood-300 bg-white px-4 py-2 text-sm font-medium text-wood-700 transition-colors hover:bg-wood-100 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            ← Prethodna
+          </button>
+          <button
+            (click)="changePage(currentPage() + 1)"
+            [disabled]="currentPage() + 1 >= p.totalPages"
+            class="rounded-lg border border-wood-300 bg-white px-4 py-2 text-sm font-medium text-wood-700 transition-colors hover:bg-wood-100 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Sljedeća →
+          </button>
+        </div>
+      </div>
+    }
+    }
+  }
+</div>

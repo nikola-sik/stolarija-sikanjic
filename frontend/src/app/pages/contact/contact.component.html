@@ -1,0 +1,306 @@
+<app-page-hero
+  [label]="hero()?.contact?.label || 'Kontakt'"
+  [title]="hero()?.contact?.title || 'Kontaktirajte nas'"
+  [subtitle]="hero()?.contact?.subtitle || ''"
+/>
+
+<!-- ============================================================
+     KONTAKT INFO + FORMA
+     ============================================================ -->
+<section class="section bg-wood-50">
+  <div class="container-wide">
+    <div class="grid gap-12 lg:grid-cols-5 lg:gap-16">
+      <!-- LIJEVO: Kontakt info (2/5) -->
+      <aside class="space-y-8 lg:col-span-2">
+        <div>
+          <span class="section-label">Informacije</span>
+          <h2 class="heading-md text-wood-900">Tu smo za vas</h2>
+          <p class="mt-4 text-wood-700">
+            Pozovite nas, pošaljite email ili dođite u radionicu — uvijek nam je drago kad upoznamo nove klijente.
+          </p>
+        </div>
+
+        <!-- Kontakt stavke -->
+        <ul class="space-y-5">
+          @if (contact()?.phone) {
+            <li>
+              <a
+                [href]="'tel:' + contact()?.phone"
+                class="group flex items-start gap-4 rounded-lg border border-wood-200 bg-white p-5 transition-all duration-300 hover:border-wood-700 hover:shadow-md"
+              >
+                <div class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-wood-100 text-wood-700 transition-colors group-hover:bg-wood-700 group-hover:text-wood-50">
+                  <app-icon name="phone" [size]="22" />
+                </div>
+                <div>
+                  <div class="text-xs uppercase tracking-[0.2em] text-wood-500">Telefon</div>
+                  <div class="mt-1 font-medium text-wood-900">{{ contact()?.phone }}</div>
+                </div>
+              </a>
+            </li>
+          }
+          @if (contact()?.email) {
+            <li>
+              <a
+                [href]="'mailto:' + contact()?.email"
+                class="group flex items-start gap-4 rounded-lg border border-wood-200 bg-white p-5 transition-all duration-300 hover:border-wood-700 hover:shadow-md"
+              >
+                <div class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-wood-100 text-wood-700 transition-colors group-hover:bg-wood-700 group-hover:text-wood-50">
+                  <app-icon name="mail" [size]="22" />
+                </div>
+                <div>
+                  <div class="text-xs uppercase tracking-[0.2em] text-wood-500">Email</div>
+                  <div class="mt-1 font-medium text-wood-900">{{ contact()?.email }}</div>
+                </div>
+              </a>
+            </li>
+          }
+          @if (contact()?.address) {
+            <li class="flex items-start gap-4 rounded-lg border border-wood-200 bg-white p-5">
+              <div class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-wood-100 text-wood-700">
+                <app-icon name="map-pin" [size]="22" />
+              </div>
+              <div>
+                <div class="text-xs uppercase tracking-[0.2em] text-wood-500">Adresa</div>
+                <div class="mt-1 font-medium text-wood-900">
+                  {{ contact()?.address }}<br>{{ contact()?.city }}
+                </div>
+              </div>
+            </li>
+          }
+          @if (contact()?.workingHours) {
+            <li class="flex items-start gap-4 rounded-lg border border-wood-200 bg-white p-5">
+              <div class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-wood-100 text-wood-700">
+                <app-icon name="clock" [size]="22" />
+              </div>
+              <div>
+                <div class="text-xs uppercase tracking-[0.2em] text-wood-500">Radno vrijeme</div>
+                <div class="mt-1 text-sm leading-relaxed text-wood-900">{{ contact()?.workingHours }}</div>
+              </div>
+            </li>
+          }
+        </ul>
+
+        <!-- Social -->
+        @if (contact()?.social?.instagram || contact()?.social?.facebook) {
+          <div>
+            <h3 class="mb-4 text-xs uppercase tracking-[0.2em] text-wood-500">Pratite nas</h3>
+            <div class="flex gap-3">
+              @if (contact()?.social?.instagram) {
+                <a
+                  [href]="contact()?.social?.instagram"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="Instagram"
+                  class="flex h-12 w-12 items-center justify-center rounded-lg border border-wood-200 bg-white text-wood-700 transition-all hover:border-wood-700 hover:bg-wood-700 hover:text-wood-50"
+                >
+                  <app-icon name="instagram" [size]="22" />
+                </a>
+              }
+              @if (contact()?.social?.facebook) {
+                <a
+                  [href]="contact()?.social?.facebook"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="Facebook"
+                  class="flex h-12 w-12 items-center justify-center rounded-lg border border-wood-200 bg-white text-wood-700 transition-all hover:border-wood-700 hover:bg-wood-700 hover:text-wood-50"
+                >
+                  <app-icon name="facebook" [size]="22" />
+                </a>
+              }
+            </div>
+          </div>
+        }
+      </aside>
+
+      <!-- DESNO: Forma (3/5) -->
+      <div class="lg:col-span-3">
+        <div class="rounded-lg border border-wood-200 bg-white p-8 shadow-sm md:p-10">
+          @if (state() === 'success') {
+            <!-- SUCCESS STATE -->
+            <div class="py-8 text-center">
+              <div class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-forest-600 text-wood-50">
+                <app-icon name="check-circle" [size]="40" />
+              </div>
+              <h3 class="heading-md text-wood-900">Hvala vam!</h3>
+              <p class="mx-auto mt-4 max-w-md text-wood-700">
+                Vaša poruka je uspješno poslata. Javit ćemo se u najkraćem mogućem roku — obično u toku jednog radnog dana.
+              </p>
+              <button
+                type="button"
+                (click)="resetForm()"
+                class="btn-secondary mt-8"
+              >
+                Pošalji još jednu poruku
+              </button>
+            </div>
+          } @else {
+            <!-- FORMA -->
+            <span class="section-label">Pošaljite upit</span>
+            <h2 class="heading-md mb-2 text-wood-900">Recite nam šta vam treba</h2>
+            <p class="mb-8 text-wood-700">
+              Popunite formu i javit ćemo se u najkraćem roku. Sva polja označena sa <span class="text-red-600">*</span> su obavezna.
+            </p>
+
+            <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5" novalidate>
+              <!-- Ime + Email row -->
+              <div class="grid gap-5 md:grid-cols-2">
+                <div>
+                  <label for="name" class="mb-2 block text-sm font-medium text-wood-800">
+                    Ime i prezime <span class="text-red-600">*</span>
+                  </label>
+                  <input
+                    id="name"
+                    type="text"
+                    formControlName="name"
+                    autocomplete="name"
+                    class="w-full rounded border border-wood-300 bg-wood-50 px-4 py-3 text-wood-900 transition-colors focus:border-wood-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-wood-700/20"
+                    [class.!border-red-500]="hasError('name', 'required') || hasError('name', 'minlength')"
+                  />
+                  @if (hasError('name', 'required')) {
+                    <p class="mt-1.5 text-xs text-red-600">Ime je obavezno.</p>
+                  } @else if (hasError('name', 'minlength')) {
+                    <p class="mt-1.5 text-xs text-red-600">Minimalno 2 karaktera.</p>
+                  }
+                </div>
+
+                <div>
+                  <label for="email" class="mb-2 block text-sm font-medium text-wood-800">
+                    Email <span class="text-red-600">*</span>
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    formControlName="email"
+                    autocomplete="email"
+                    class="w-full rounded border border-wood-300 bg-wood-50 px-4 py-3 text-wood-900 transition-colors focus:border-wood-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-wood-700/20"
+                    [class.!border-red-500]="hasError('email', 'required') || hasError('email', 'email')"
+                  />
+                  @if (hasError('email', 'required')) {
+                    <p class="mt-1.5 text-xs text-red-600">Email je obavezan.</p>
+                  } @else if (hasError('email', 'email')) {
+                    <p class="mt-1.5 text-xs text-red-600">Email format nije ispravan.</p>
+                  }
+                </div>
+              </div>
+
+              <!-- Telefon + Tema row -->
+              <div class="grid gap-5 md:grid-cols-2">
+                <div>
+                  <label for="phone" class="mb-2 block text-sm font-medium text-wood-800">
+                    Telefon
+                  </label>
+                  <input
+                    id="phone"
+                    type="tel"
+                    formControlName="phone"
+                    autocomplete="tel"
+                    class="w-full rounded border border-wood-300 bg-wood-50 px-4 py-3 text-wood-900 transition-colors focus:border-wood-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-wood-700/20"
+                  />
+                </div>
+
+                <div>
+                  <label for="topic" class="mb-2 block text-sm font-medium text-wood-800">
+                    Tema
+                  </label>
+                  <select
+                    id="topic"
+                    formControlName="topic"
+                    class="w-full rounded border border-wood-300 bg-wood-50 px-4 py-3 text-wood-900 transition-colors focus:border-wood-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-wood-700/20"
+                  >
+                    @for (topic of topics; track topic.value) {
+                      <option [value]="topic.value">{{ topic.label }}</option>
+                    }
+                  </select>
+                </div>
+              </div>
+
+              <!-- Poruka -->
+              <div>
+                <label for="message" class="mb-2 block text-sm font-medium text-wood-800">
+                  Poruka <span class="text-red-600">*</span>
+                </label>
+                <textarea
+                  id="message"
+                  formControlName="message"
+                  rows="6"
+                  class="w-full rounded border border-wood-300 bg-wood-50 px-4 py-3 text-wood-900 transition-colors focus:border-wood-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-wood-700/20"
+                  [class.!border-red-500]="hasError('message', 'required') || hasError('message', 'minlength')"
+                  placeholder="Opišite nam šta vam treba — dimenzije, materijal, stil..."
+                ></textarea>
+                @if (hasError('message', 'required')) {
+                  <p class="mt-1.5 text-xs text-red-600">Poruka je obavezna.</p>
+                } @else if (hasError('message', 'minlength')) {
+                  <p class="mt-1.5 text-xs text-red-600">Minimalno 10 karaktera.</p>
+                }
+              </div>
+
+              <!-- Pristanak -->
+              <div>
+                <label class="flex cursor-pointer items-start gap-3">
+                  <input
+                    type="checkbox"
+                    formControlName="consent"
+                    class="mt-1 h-4 w-4 cursor-pointer rounded border-wood-400 text-wood-700 focus:ring-wood-700"
+                  />
+                  <span class="text-sm text-wood-700">
+                    Slažem se da {{ business()?.shortName }} kontaktira mene putem podataka koje sam dao u ovoj formi.
+                    <span class="text-red-600">*</span>
+                  </span>
+                </label>
+                @if (hasError('consent', 'required')) {
+                  <p class="ml-7 mt-1.5 text-xs text-red-600">Morate prihvatiti da bismo vas mogli kontaktirati.</p>
+                }
+              </div>
+
+              <!-- Error state -->
+              @if (state() === 'error') {
+                <div class="rounded-lg bg-red-50 p-4 text-sm text-red-800">
+                  {{ errorMessage() || 'Došlo je do greške prilikom slanja. Molimo pokušajte ponovo ili nas pozovite telefonom.' }}
+                </div>
+              }
+
+              <!-- Submit -->
+              <button
+                type="submit"
+                [disabled]="state() === 'submitting'"
+                class="btn-primary w-full justify-center disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                @if (state() === 'submitting') {
+                  <span class="inline-block h-5 w-5 animate-spin rounded-full border-2 border-wood-50/30 border-t-wood-50"></span>
+                  <span>Šaljem...</span>
+                } @else {
+                  <app-icon name="send" [size]="18" />
+                  <span>Pošalji upit</span>
+                }
+              </button>
+
+              <p class="text-center text-xs text-wood-500">
+                Vaši podaci se koriste isključivo za odgovor na ovaj upit.
+              </p>
+            </form>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     MAPA — placeholder
+     ============================================================ -->
+<section class="section bg-wood-100 !pt-0">
+  <div class="container-wide">
+    <div class="rounded-lg border border-wood-200 bg-white p-8 text-center">
+      <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-wood-100 text-wood-700">
+        <app-icon name="map-pin" [size]="32" />
+      </div>
+      <h3 class="heading-md text-wood-900">Posjetite našu radionicu</h3>
+      <p class="mt-4 text-wood-700">
+        {{ contact()?.address }}, {{ contact()?.city }}
+      </p>
+      <p class="mt-2 text-sm italic text-wood-500">
+        Mapa će biti uključena nakon što unesemo pravu adresu u config.
+      </p>
+    </div>
+  </div>
+</section>

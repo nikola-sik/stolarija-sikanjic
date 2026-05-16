@@ -1,0 +1,242 @@
+<!-- ============================================================
+     HERO SEKCIJA — drama, topli tonovi, naglasak na zanat
+     ============================================================ -->
+<section class="relative flex min-h-screen items-center overflow-hidden bg-wood-900">
+  <!-- Background slika (puni okvir, zumirana animacija) -->
+  @if (hero()?.backgroundImage) {
+    <img
+      [src]="hero()?.backgroundImage"
+      alt=""
+      aria-hidden="true"
+      class="absolute inset-0 h-full w-full object-cover animate-slow-zoom"
+    />
+  }
+
+  <!-- Tamni gradijent overlay - lijevo tamniji (za čitljivost teksta), desno transparent -->
+  <div class="absolute inset-0 bg-gradient-to-r from-wood-900/95 via-wood-900/75 to-wood-900/40"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-wood-900/60 via-transparent to-transparent"></div>
+
+  <!-- Dekorativni mekani krugovi -->
+  <div class="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-wood-700/30 blur-3xl"></div>
+  <div class="absolute -left-20 bottom-20 h-72 w-72 rounded-full bg-forest-600/20 blur-3xl"></div>
+
+  <!-- Pattern overlay (suptilna teksturna mrežica) -->
+  <div
+    class="absolute inset-0 opacity-[0.03]"
+    style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 24px 24px;"
+  ></div>
+
+  <div class="container-wide relative z-10 px-6 py-32 lg:px-20">
+    <div class="max-w-3xl">
+      <!-- Mali label sa ornamentom -->
+      <div class="mb-8 flex items-center gap-4 opacity-0 animate-fade-in" style="animation-delay: 0.1s">
+        <div class="h-px w-12 bg-wood-500"></div>
+        <span class="text-xs uppercase tracking-[0.3em] text-wood-300">
+          {{ hero()?.subtitle }}
+        </span>
+      </div>
+
+      <!-- Glavni naslov -->
+      <h1 class="heading-xl text-wood-50 opacity-0 animate-fade-in-up" style="animation-delay: 0.2s">
+        {{ hero()?.title }}
+      </h1>
+
+      <!-- Opis -->
+      <p class="mt-8 max-w-xl text-lg leading-relaxed text-wood-200 opacity-0 animate-fade-in-up" style="animation-delay: 0.5s">
+        {{ hero()?.description }}
+      </p>
+
+      <!-- CTA dugmad -->
+      <div class="mt-12 flex flex-wrap gap-4 opacity-0 animate-fade-in-up" style="animation-delay: 0.7s">
+        <a [routerLink]="hero()?.primaryCta?.link" class="btn-primary !bg-cream !text-wood-900 hover:!bg-wood-50">
+          {{ hero()?.primaryCta?.label }}
+          <app-icon name="arrow-right" [size]="18" />
+        </a>
+        <a [routerLink]="hero()?.secondaryCta?.link" class="btn-secondary !border-wood-300 !text-wood-100 hover:!bg-wood-50 hover:!text-wood-900 hover:!border-wood-50">
+          {{ hero()?.secondaryCta?.label }}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indikator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 animate-fade-in" style="animation-delay: 1.2s">
+    <div class="flex flex-col items-center gap-2 text-wood-300">
+      <span class="text-[10px] uppercase tracking-[0.3em]">Skroluj</span>
+      <div class="flex h-10 w-6 items-start justify-center rounded-full border border-wood-500 p-1.5">
+        <div class="h-2 w-1 rounded-full bg-wood-300 animate-bounce"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ABOUT PREVIEW — priča + statistike
+     ============================================================ -->
+<section class="section bg-wood-50">
+  <div class="container-wide">
+    <div class="grid gap-16 lg:grid-cols-2 lg:items-center lg:gap-24">
+      <!-- Tekst -->
+      <div>
+        <span class="section-label">{{ about()?.subtitle }}</span>
+        <h2 class="heading-lg text-wood-900">{{ about()?.title }}</h2>
+        <div class="ornament-divider !my-8 !justify-start">
+          <svg class="h-4 w-4 text-wood-400" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/>
+          </svg>
+        </div>
+        @for (paragraph of about()?.paragraphs ?? []; track $index) {
+          <p class="mb-5 leading-relaxed text-wood-700">{{ paragraph }}</p>
+        }
+        <a routerLink="/o-nama" class="mt-6 inline-flex items-center gap-2 font-medium text-wood-700 transition-all hover:gap-3 hover:text-wood-900">
+          Saznaj više o nama
+          <app-icon name="arrow-right" [size]="18" />
+        </a>
+      </div>
+
+      <!-- Statistike u grid-u -->
+      <div class="grid grid-cols-2 gap-4">
+        @for (item of about()?.highlights ?? []; track item.label) {
+          <div class="group relative overflow-hidden rounded-lg border border-wood-200 bg-white p-8 transition-all duration-500 hover:-translate-y-1 hover:border-wood-400 hover:shadow-xl">
+            <!-- Suptilni akcent u uglu -->
+            <div class="absolute right-0 top-0 h-20 w-20 -translate-y-10 translate-x-10 rounded-full bg-wood-100 transition-all duration-500 group-hover:scale-150"></div>
+            <div class="relative">
+              <div class="font-serif text-5xl font-medium text-wood-700">{{ item.value }}</div>
+              <div class="mt-3 text-sm uppercase tracking-wider text-wood-500">{{ item.label }}</div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     USLUGE — featured grid
+     ============================================================ -->
+<section class="section bg-gradient-to-b from-wood-50 to-wood-100">
+  <div class="container-wide">
+    <!-- Header -->
+    <div class="mb-16 text-center">
+      <span class="section-label">Šta radimo</span>
+      <h2 class="heading-lg text-wood-900">Naše usluge</h2>
+      <div class="ornament-divider"></div>
+      <p class="mx-auto mt-4 max-w-2xl text-wood-700">
+        Svaki komad se pravi posebno za vas — od ideje, preko skice, do montaže u vašem prostoru.
+      </p>
+    </div>
+
+    <!-- Featured grid -->
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      @for (service of featuredServices(); track service.id) {
+        <article class="group relative overflow-hidden rounded-lg border border-wood-200 bg-white p-8 transition-all duration-500 hover:-translate-y-2 hover:border-wood-700 hover:shadow-2xl">
+          <!-- Hover background efekat -->
+          <div class="absolute inset-0 -z-0 bg-gradient-to-br from-wood-50 to-cream opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
+
+          <div class="relative z-10">
+            <!-- Ikona u krugu -->
+            <div class="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-lg bg-wood-100 text-wood-700 transition-all duration-500 group-hover:bg-wood-700 group-hover:text-wood-50 group-hover:scale-110">
+              <app-icon [name]="service.icon" [size]="32" />
+            </div>
+
+            <h3 class="heading-md mb-3 text-wood-900">{{ service.title }}</h3>
+            <p class="mb-6 leading-relaxed text-wood-700">{{ service.description }}</p>
+
+            <a routerLink="/usluge" class="inline-flex items-center gap-2 text-sm font-medium uppercase tracking-wider text-wood-700 transition-all group-hover:gap-3">
+              Detaljnije
+              <app-icon name="arrow-right" [size]="16" />
+            </a>
+          </div>
+        </article>
+      }
+    </div>
+
+    <!-- Sve usluge link -->
+    <div class="mt-12 text-center">
+      <a routerLink="/usluge" class="btn-secondary">
+        Pogledaj sve usluge
+        <app-icon name="arrow-right" [size]="18" />
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     GALERIJA TEASER — vizuelni naglasak na rad
+     ============================================================ -->
+<section class="section bg-wood-50">
+  <div class="container-wide">
+    <div class="mb-16 flex flex-wrap items-end justify-between gap-6">
+      <div>
+        <span class="section-label">Naši radovi</span>
+        <h2 class="heading-lg text-wood-900">Galerija</h2>
+      </div>
+      <a routerLink="/galerija" class="inline-flex items-center gap-2 font-medium text-wood-700 transition-all hover:gap-3 hover:text-wood-900">
+        Pogledaj sve
+        <app-icon name="arrow-right" [size]="18" />
+      </a>
+    </div>
+
+    <!-- Mosaic grid sa placeholder-ima (prave slike dolaze kroz admin) -->
+    <div class="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+      <div class="aspect-[3/4] overflow-hidden rounded-lg bg-gradient-to-br from-wood-300 to-wood-500 transition-all hover:scale-[1.02] hover:shadow-xl cursor-pointer relative group">
+        <div class="absolute inset-0 flex items-end p-4 bg-gradient-to-t from-wood-900/60 to-transparent">
+          <span class="font-serif text-wood-50 opacity-0 group-hover:opacity-100 transition-opacity">Kuhinje</span>
+        </div>
+      </div>
+      <div class="aspect-square overflow-hidden rounded-lg bg-gradient-to-br from-wood-500 to-wood-700 transition-all hover:scale-[1.02] hover:shadow-xl cursor-pointer relative group">
+        <div class="absolute inset-0 flex items-end p-4 bg-gradient-to-t from-wood-900/60 to-transparent">
+          <span class="font-serif text-wood-50 opacity-0 group-hover:opacity-100 transition-opacity">Plakari</span>
+        </div>
+      </div>
+      <div class="aspect-square overflow-hidden rounded-lg bg-gradient-to-br from-forest-500 to-forest-700 transition-all hover:scale-[1.02] hover:shadow-xl cursor-pointer relative group">
+        <div class="absolute inset-0 flex items-end p-4 bg-gradient-to-t from-wood-900/60 to-transparent">
+          <span class="font-serif text-wood-50 opacity-0 group-hover:opacity-100 transition-opacity">Stepenice</span>
+        </div>
+      </div>
+      <div class="aspect-[3/4] overflow-hidden rounded-lg bg-gradient-to-br from-wood-700 to-wood-900 transition-all hover:scale-[1.02] hover:shadow-xl cursor-pointer relative group">
+        <div class="absolute inset-0 flex items-end p-4 bg-gradient-to-t from-wood-900/60 to-transparent">
+          <span class="font-serif text-wood-50 opacity-0 group-hover:opacity-100 transition-opacity">Vrata</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="mt-8 text-center text-sm italic text-wood-500">
+      Galerija će biti popunjena u Fazi 2 kad spojimo admin panel za upload slika.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA — kontakt poziv
+     ============================================================ -->
+<section class="relative overflow-hidden bg-wood-900 py-20 md:py-28">
+  <!-- Dekorativni elementi -->
+  <div class="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-wood-700/40 blur-3xl"></div>
+  <div class="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-forest-600/30 blur-3xl"></div>
+
+  <div class="container-narrow relative z-10 px-6 text-center">
+    <span class="section-label !text-wood-300">Spremni za saradnju?</span>
+    <h2 class="heading-lg text-wood-50">
+      Imate ideju?<br>
+      <span class="italic text-cream">Mi ćemo je realizovati.</span>
+    </h2>
+    <div class="ornament-divider">
+      <svg class="h-4 w-4 text-wood-400" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/>
+      </svg>
+    </div>
+    <p class="mx-auto mb-10 mt-4 max-w-xl text-wood-200">
+      Bilo da znate tačno šta želite ili imate samo ideju — pozovite nas i razgovaramo. Procjena i savjet su besplatni.
+    </p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a [href]="'tel:' + contact()?.phone" class="btn-primary !bg-cream !text-wood-900 hover:!bg-wood-50">
+        <app-icon name="phone" [size]="18" />
+        {{ contact()?.phone }}
+      </a>
+      <a routerLink="/kontakt" class="btn-secondary !border-wood-300 !text-wood-100 hover:!bg-wood-50 hover:!text-wood-900 hover:!border-wood-50">
+        Pošalji upit
+      </a>
+    </div>
+  </div>
+</section>

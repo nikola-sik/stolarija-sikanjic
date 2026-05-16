@@ -1,0 +1,42 @@
+<section class="relative flex min-h-[55vh] items-end overflow-hidden bg-wood-900 pt-32 pb-16 md:min-h-[60vh] md:pb-24">
+  <!-- Background slika ili gradijent fallback -->
+  @if (backgroundImage) {
+    <img
+      [src]="backgroundImage"
+      alt=""
+      aria-hidden="true"
+      class="absolute inset-0 h-full w-full object-cover"
+    />
+  } @else {
+    <div class="absolute inset-0 bg-gradient-to-br from-wood-900 via-wood-800 to-wood-700"></div>
+  }
+
+  <!-- Tamni overlay -->
+  <div class="absolute inset-0 bg-gradient-to-r from-wood-900/95 via-wood-900/80 to-wood-900/60"></div>
+
+  <!-- Dekorativni krug -->
+  <div class="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-wood-700/30 blur-3xl"></div>
+
+  <!-- Pattern overlay -->
+  <div
+    class="absolute inset-0 opacity-[0.03]"
+    style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 24px 24px;"
+  ></div>
+
+  <div class="container-wide relative z-10 px-6 lg:px-20">
+    <div class="max-w-3xl">
+      <div class="mb-5 flex items-center gap-4 opacity-0 animate-fade-in" style="animation-delay: 0.1s">
+        <div class="h-px w-10 bg-wood-500"></div>
+        <span class="text-xs uppercase tracking-[0.3em] text-wood-300">{{ label }}</span>
+      </div>
+      <h1 class="heading-lg text-wood-50 opacity-0 animate-fade-in-up md:text-6xl" style="animation-delay: 0.2s">
+        {{ title }}
+      </h1>
+      @if (subtitle) {
+        <p class="mt-5 max-w-2xl text-lg leading-relaxed text-wood-200 opacity-0 animate-fade-in-up" style="animation-delay: 0.4s">
+          {{ subtitle }}
+        </p>
+      }
+    </div>
+  </div>
+</section>

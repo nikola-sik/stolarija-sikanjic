@@ -1,0 +1,125 @@
+<app-page-hero
+  [label]="hero()?.services?.label || 'Usluge'"
+  [title]="hero()?.services?.title || 'Šta radimo'"
+  [subtitle]="hero()?.services?.subtitle || ''"
+/>
+
+<!-- ============================================================
+     INTRO + MATERIJALI
+     ============================================================ -->
+<section class="section bg-wood-50">
+  <div class="container-narrow text-center">
+    <span class="section-label">Materijali</span>
+    <h2 class="heading-md text-wood-900">Radimo sa svim kvalitetnim materijalima</h2>
+    <div class="ornament-divider"></div>
+    <p class="mx-auto max-w-2xl text-wood-700">
+      Bilo da želite topao osjećaj klasičnog masivnog drveta ili moderan,
+      uniforman izgled pločastih materijala — kod nas su sve opcije dostupne.
+    </p>
+
+    <!-- Tagovi materijala -->
+    <div class="mx-auto mt-8 flex max-w-3xl flex-wrap justify-center gap-3">
+      @for (material of [
+        'Hrast', 'Orah', 'Jasen', 'Bukva',
+        'Iverica', 'MDF', 'Šperploča', 'Furnir',
+        'OSB ploče', 'Masivka'
+      ]; track material) {
+        <span class="rounded-full border border-wood-300 bg-white px-5 py-2 text-sm font-medium text-wood-700 transition-colors hover:border-wood-700 hover:bg-wood-700 hover:text-wood-50">
+          {{ material }}
+        </span>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SVE USLUGE — grid
+     ============================================================ -->
+<section class="section bg-gradient-to-b from-wood-50 to-wood-100">
+  <div class="container-wide">
+    <div class="mb-16 text-center">
+      <span class="section-label">Naše usluge</span>
+      <h2 class="heading-lg text-wood-900">Sve što vam zatreba — pod jednim krovom</h2>
+      <div class="ornament-divider"></div>
+    </div>
+
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      @for (service of services(); track service.id) {
+        <article
+          [id]="service.id"
+          class="group relative overflow-hidden rounded-lg border border-wood-200 bg-white p-8 transition-all duration-500 hover:-translate-y-2 hover:border-wood-700 hover:shadow-2xl"
+        >
+          <!-- Hover background -->
+          <div class="absolute inset-0 -z-0 bg-gradient-to-br from-wood-50 to-cream opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
+
+          <!-- Featured badge -->
+          @if (service.featured) {
+            <div class="absolute right-4 top-4 z-10 rounded-full bg-forest-600 px-3 py-1 text-[10px] uppercase tracking-wider text-wood-50">
+              Popularno
+            </div>
+          }
+
+          <div class="relative z-10">
+            <div class="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-lg bg-wood-100 text-wood-700 transition-all duration-500 group-hover:bg-wood-700 group-hover:text-wood-50 group-hover:scale-110">
+              <app-icon [name]="service.icon" [size]="32" />
+            </div>
+
+            <h3 class="heading-md mb-2 text-wood-900">{{ service.title }}</h3>
+            <p class="mb-4 text-sm uppercase tracking-wider text-wood-500">
+              {{ service.shortDescription }}
+            </p>
+            <p class="leading-relaxed text-wood-700">{{ service.description }}</p>
+          </div>
+        </article>
+      }
+    </div>
+
+    <!-- Custom rad - dodatna kartica -->
+    <div class="mt-10 rounded-lg bg-wood-900 p-10 text-center text-wood-50 md:p-14">
+      <div class="mx-auto mb-5 inline-flex h-14 w-14 items-center justify-center rounded-full bg-forest-600">
+        <app-icon name="sparkles" [size]="28" />
+      </div>
+      <h3 class="heading-md text-wood-50">Imate nešto specifično na umu?</h3>
+      <p class="mx-auto mt-4 max-w-2xl text-wood-200">
+        Ovdje su navedene naše najtraženije usluge. Ali radimo i sve drugo — kućice za djecu, drvene drvene barske pultove, ručno rađene poklone... Pozovite nas, razgovaramo.
+      </p>
+      <a routerLink="/kontakt" class="btn-primary mt-8 !bg-cream !text-wood-900 hover:!bg-wood-50">
+        Naručite custom rad
+        <app-icon name="arrow-right" [size]="18" />
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROCES
+     ============================================================ -->
+<app-process-steps />
+
+<!-- ============================================================
+     CTA
+     ============================================================ -->
+<section class="relative overflow-hidden bg-wood-900 py-20 text-wood-50 md:py-24">
+  <div class="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-forest-600/30 blur-3xl"></div>
+  <div class="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-wood-700/40 blur-3xl"></div>
+
+  <div class="container-narrow relative z-10 px-6 text-center">
+    <span class="section-label !text-wood-300">Krenimo</span>
+    <h2 class="heading-lg text-wood-50">
+      Recite nam šta vam treba —<br>
+      <span class="italic text-cream">mi rješavamo ostalo.</span>
+    </h2>
+    <p class="mx-auto mb-10 mt-6 max-w-xl text-wood-200">
+      Procjena i savjet su besplatni. Bilo da znate tačno šta želite ili tek razmišljate o ideji.
+    </p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a routerLink="/galerija" class="btn-primary !bg-cream !text-wood-900 hover:!bg-wood-50">
+        Pogledaj radove
+        <app-icon name="arrow-right" [size]="18" />
+      </a>
+      <a routerLink="/kontakt" class="btn-secondary !border-wood-300 !text-wood-100 hover:!bg-wood-50 hover:!text-wood-900 hover:!border-wood-50">
+        Pošalji upit
+      </a>
+    </div>
+  </div>
+</section>

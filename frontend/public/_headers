@@ -1,0 +1,17 @@
+# Security headers za sve odgovore
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# Aggressive caching za hash-irane assete (Angular dodaje hash za cache busting)
+/*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+# Slike - 30 dana, ali revaliduj
+/assets/*
+  Cache-Control: public, max-age=2592000, must-revalidate
