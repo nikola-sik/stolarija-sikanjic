@@ -12,7 +12,7 @@
 #  4. Wrangler upload-uje fajlove iz [assets].directory na Cloudflare CDN
 # =============================================================================
 
-name = "stolarija-sikanjic"
+name = "stolarija"
 compatibility_date = "2025-01-01"
 
 [assets]
