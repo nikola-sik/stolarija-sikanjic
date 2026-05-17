@@ -96,6 +96,13 @@
             <version>${springdoc.version}</version>
         </dependency>
 
+        <!-- Image processing - resize i thumbnail generisanje -->
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>0.4.20</version>
+        </dependency>
+
         <!-- Lombok - reduces boilerplate in entities -->
         <dependency>
             <groupId>org.projectlombok</groupId>

@@ -37,6 +37,9 @@ public class GalleryItem extends BaseEntity {
     @Column(name = "image_key", nullable = false, length = 500)
     private String imageKey;
 
+    @Column(name = "thumbnail_key", length = 500)
+    private String thumbnailKey;
+
     @Column(name = "display_order", nullable = false)
     private Integer displayOrder;
 

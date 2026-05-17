@@ -4,6 +4,7 @@ import com.businessshowcase.common.exception.NotFoundException;
 import com.businessshowcase.gallery.dto.CreateGalleryItemRequest;
 import com.businessshowcase.gallery.dto.GalleryItemDto;
 import com.businessshowcase.gallery.dto.UpdateGalleryItemRequest;
+import com.businessshowcase.storage.ImageProcessor;
 import com.businessshowcase.storage.StorageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +20,11 @@ import java.util.List;
 public class GalleryService {
 
     private static final String STORAGE_FOLDER = "gallery";
+    private static final String THUMB_SUFFIX = "-thumb";
 
     private final GalleryItemRepository repository;
     private final StorageService storageService;
+    private final ImageProcessor imageProcessor;
 
     @Transactional(readOnly = true)
     public List<GalleryItemDto> listAll() {
@@ -53,22 +56,43 @@ public class GalleryService {
 
     @Transactional
     public GalleryItemDto create(CreateGalleryItemRequest request, MultipartFile image) {
-        // 1. Upload slike u storage
-        StorageService.UploadedFile uploaded = storageService.upload(image, STORAGE_FOLDER);
+        // 1. Procesiraj sliku: validacija + resize + thumbnail
+        ImageProcessor.ProcessedImages processed = imageProcessor.process(image);
 
-        // 2. Sačuvaj zapis u bazu
+        String baseName = stripExtension(image.getOriginalFilename());
+        String mainFilename = baseName + ".jpg";
+        String thumbFilename = baseName + THUMB_SUFFIX + ".jpg";
+
+        // 2. Upload glavne slike
+        StorageService.UploadedFile mainFile = storageService.uploadBytes(
+                processed.mainImage(), processed.contentType(), mainFilename, STORAGE_FOLDER);
+
+        // 3. Upload thumbnail - ako fail, očisti glavnu da ne ostane orphan
+        StorageService.UploadedFile thumbFile;
+        try {
+            thumbFile = storageService.uploadBytes(
+                    processed.thumbnail(), processed.contentType(), thumbFilename, STORAGE_FOLDER);
+        } catch (Exception e) {
+            log.warn("Thumbnail upload failed - cleanup glavne slike: {}", mainFile.key());
+            storageService.delete(mainFile.key());
+            throw e;
+        }
+
+        // 4. Sačuvaj zapis sa oba URL-a
         GalleryItem item = GalleryItem.builder()
                 .title(request.title())
                 .description(request.description())
                 .category(request.category())
-                .imageUrl(uploaded.url())
-                .imageKey(uploaded.key())
+                .imageUrl(mainFile.url())
+                .imageKey(mainFile.key())
+                .thumbnailUrl(thumbFile.url())
+                .thumbnailKey(thumbFile.key())
                 .displayOrder(request.displayOrderOrDefault())
                 .featured(request.featuredOrDefault())
                 .build();
 
         item = repository.save(item);
-        log.info("Kreirana galerija stavka [id={}] od strane admina", item.getId());
+        log.info("Kreirana galerija stavka [id={}] - main + thumb", item.getId());
 
         return GalleryItemDto.from(item);
     }
@@ -97,11 +121,19 @@ public class GalleryService {
         GalleryItem item = repository.findById(id)
                 .orElseThrow(() -> NotFoundException.of("Galerija", id));
 
-        // 1. Prvo storage (ako fail, DB rollback)
+        // Storage cleanup (idempotentno - ne baca grešku)
         storageService.delete(item.getImageKey());
+        if (item.getThumbnailKey() != null) {
+            storageService.delete(item.getThumbnailKey());
+        }
 
-        // 2. Pa baza
         repository.delete(item);
         log.info("Obrisana galerija stavka [id={}]", id);
+    }
+
+    private static String stripExtension(String filename) {
+        if (filename == null || filename.isBlank()) return "image";
+        int dot = filename.lastIndexOf('.');
+        return dot > 0 ? filename.substring(0, dot) : filename;
     }
 }

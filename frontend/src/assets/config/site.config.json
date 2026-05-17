@@ -39,7 +39,7 @@
     "description": "Ručno izrađen namještaj — od klasičnog masiva do modernih pločastih materijala. Kuhinje, plakari, vrata i sve što zamislite, prilagođeno vašem prostoru i ukusu.",
     "primaryCta": { "label": "Pogledaj radove", "link": "/galerija" },
     "secondaryCta": { "label": "Naruči po mjeri", "link": "/kontakt" },
-    "backgroundImage": "/assets/images/furniture.png"
+    "backgroundImage": "/assets/images/furniture.jpg"
   },
   "pageHeroes": {
     "about": {
@@ -77,7 +77,7 @@
       { "label": "Vrsta materijala", "value": "10+" },
       { "label": "Domaća izrada", "value": "100%" }
     ],
-    "image": "/assets/images/furniture.png"
+    "image": "/assets/images/furniture.jpg"
   },
   "process": {
     "title": "Kako radimo",
@@ -222,7 +222,7 @@
       "namještaj po mjeri", "puno drvo", "iverica", "MDF", "pločasti namještaj",
       "ugradni plakari", "Šikanjić"
     ],
-    "ogImage": "/assets/images/furniture.png"
+    "ogImage": "/assets/images/furniture.jpg"
   },
   "navigation": [
     { "label": "Početna", "path": "/", "exact": true },

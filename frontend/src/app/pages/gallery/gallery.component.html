@@ -53,8 +53,9 @@
               class="group relative aspect-square overflow-hidden rounded-lg cursor-pointer transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl"
               [attr.aria-label]="'Otvori ' + item.title"
             >
+              <!-- Grid koristi thumbnail (manji, brži load) sa fallback na glavnu sliku -->
               <img
-                [src]="item.imageUrl"
+                [src]="item.thumbnailUrl || item.imageUrl"
                 [alt]="item.title"
                 loading="lazy"
                 class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"

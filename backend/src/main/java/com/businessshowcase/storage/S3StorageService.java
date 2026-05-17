@@ -1,12 +1,10 @@
 package com.businessshowcase.storage;
 
-import com.businessshowcase.common.exception.BadRequestException;
 import com.businessshowcase.common.exception.StorageException;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
@@ -16,23 +14,18 @@ import software.amazon.awssdk.services.s3.model.NoSuchBucketException;
 import software.amazon.awssdk.services.s3.model.PutBucketPolicyRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
-import java.io.IOException;
-import java.util.Set;
 import java.util.UUID;
 
 /**
  * S3-compatible implementacija. Radi sa MinIO, R2, B2, AWS S3 - bilo čime
  * što govori S3 protokol.
+ *
+ * Validacija fajlova nije ovdje - radi se uzvodno (vidi {@link ImageProcessor}).
  */
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class S3StorageService implements StorageService {
-
-    private static final Set<String> ALLOWED_IMAGE_TYPES = Set.of(
-            "image/jpeg", "image/png", "image/webp", "image/gif"
-    );
-    private static final long MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
     private final S3Client s3Client;
     private final StorageProperties props;
@@ -63,14 +56,9 @@ public class S3StorageService implements StorageService {
 
     /**
      * Postavlja bucket policy koji dozvoljava anonimno čitanje (download) objekata.
-     * Bez ovoga, slike sa galerije nisu pristupne iz browsera (403 Forbidden).
-     *
      * Idempotentno - bezbjedno se poziva pri svakom pokretanju.
-     *
-     * NAPOMENA: Za produkciju razmotri:
-     *  - CloudFlare R2 + custom domain sa public access
-     *  - ili CDN ispred storage-a
-     *  - ili pre-signed URL-ove za osjetljive resurse
+     * Na Cloudflare R2 ovo fail-uje (R2 ne podržava bucket policy API) - to je OK,
+     * publicity se kontroliše preko R2.dev subdomain-a ili custom domena.
      */
     private void applyPublicReadPolicy() {
         String policy = """
@@ -96,37 +84,32 @@ public class S3StorageService implements StorageService {
             log.info("Public-read policy primijenjena na bucket '{}'", props.bucket());
         } catch (Exception e) {
             log.warn("Nije moguce postaviti bucket policy ({}). " +
-                    "Slike mozda nece biti pristupne iz browsera. " +
-                    "Postavi rucno: 'mc anonymous set download local/{}'",
-                    e.getMessage(), props.bucket());
+                    "Provjeri da bucket ima omogucen javni pristup (R2.dev subdomain ili custom domain).",
+                    e.getMessage());
         }
     }
 
     @Override
-    public UploadedFile upload(MultipartFile file, String folder) {
-        validateFile(file);
-
+    public UploadedFile uploadBytes(byte[] data, String contentType, String filenameHint, String folder) {
         String key = "%s/%s-%s".formatted(
                 folder,
                 UUID.randomUUID(),
-                sanitizeFilename(file.getOriginalFilename()));
+                sanitizeFilename(filenameHint));
 
         try {
             PutObjectRequest request = PutObjectRequest.builder()
                     .bucket(props.bucket())
                     .key(key)
-                    .contentType(file.getContentType())
-                    .contentLength(file.getSize())
+                    .contentType(contentType)
+                    .contentLength((long) data.length)
                     .build();
 
-            s3Client.putObject(request, RequestBody.fromInputStream(file.getInputStream(), file.getSize()));
+            s3Client.putObject(request, RequestBody.fromBytes(data));
 
             String url = buildPublicUrl(key);
-            log.info("Uploadovan fajl: {} -> {}", file.getOriginalFilename(), key);
+            log.info("Upload {}KB -> {}", data.length / 1024, key);
             return new UploadedFile(key, url);
 
-        } catch (IOException e) {
-            throw new StorageException("Greska pri citanju fajla", e);
         } catch (Exception e) {
             throw new StorageException("Greska pri upload-u: " + e.getMessage(), e);
         }
@@ -141,27 +124,12 @@ public class S3StorageService implements StorageService {
                     .build());
             log.info("Obrisan fajl: {}", key);
         } catch (Exception e) {
-            log.warn("Greska pri brisanju fajla {} - ignorisem ({}). " +
-                    "Orphan storage objekti se cikase tokom periodicnog cleanup-a.",
-                    key, e.getMessage());
-        }
-    }
-
-    private void validateFile(MultipartFile file) {
-        if (file == null || file.isEmpty()) {
-            throw new BadRequestException("Fajl je prazan");
-        }
-        if (file.getSize() > MAX_FILE_SIZE) {
-            throw new BadRequestException("Fajl je veci od 10MB");
-        }
-        String contentType = file.getContentType();
-        if (contentType == null || !ALLOWED_IMAGE_TYPES.contains(contentType)) {
-            throw new BadRequestException("Tip fajla nije podrzan. Dozvoljeno: JPEG, PNG, WebP, GIF");
+            log.warn("Greska pri brisanju fajla {} - ignorisem ({}).", key, e.getMessage());
         }
     }
 
     private String sanitizeFilename(String filename) {
-        if (filename == null) return "file";
+        if (filename == null || filename.isBlank()) return "file";
         return filename.replaceAll("[^a-zA-Z0-9._-]", "_");
     }
 
