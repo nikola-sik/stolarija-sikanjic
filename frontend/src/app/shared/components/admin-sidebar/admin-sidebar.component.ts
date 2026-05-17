@@ -27,6 +27,7 @@ export class AdminSidebarComponent {
     { label: 'Dashboard', path: '/admin', icon: 'layout-panel-left', exact: true },
     { label: 'Galerija', path: '/admin/galerija', icon: 'package' },
     { label: 'Upiti', path: '/admin/upiti', icon: 'mail' },
+    { label: 'Postavke', path: '/admin/postavke', icon: 'wrench' },
   ];
 
   toggleMobile(): void {

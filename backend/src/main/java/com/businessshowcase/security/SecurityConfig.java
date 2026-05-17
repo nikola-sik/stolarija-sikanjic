@@ -58,6 +58,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints
                         .requestMatchers(HttpMethod.GET, "/api/v1/gallery/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/settings").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/contact").permitAll()
                         .requestMatchers("/api/v1/auth/login").permitAll()
                         .requestMatchers("/api/v1/api-docs/**", "/api/v1/swagger-ui/**", "/swagger-ui/**").permitAll()

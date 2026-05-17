@@ -1,0 +1,173 @@
+<div class="px-6 py-8 lg:px-12 lg:py-12">
+  <!-- Header -->
+  <div class="mb-8">
+    <p class="text-sm uppercase tracking-[0.2em] text-wood-500">Admin / Postavke</p>
+    <h1 class="mt-2 font-serif text-3xl text-wood-900 md:text-4xl">Kontakt podaci</h1>
+    <p class="mt-2 text-wood-700">
+      Ovi podaci se prikazuju u footer-u, na Kontakt stranici i u formama na cijelom sajtu.
+    </p>
+  </div>
+
+  @if (loading()) {
+    <div class="flex justify-center py-16">
+      <div class="h-10 w-10 animate-spin rounded-full border-4 border-wood-200 border-t-wood-700"></div>
+    </div>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="max-w-3xl space-y-8">
+      <!-- LOKACIJA -->
+      <section class="rounded-lg border border-wood-200 bg-white p-6 md:p-8">
+        <div class="mb-5 flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-wood-100 text-wood-700">
+            <app-icon name="map-pin" [size]="20" />
+          </div>
+          <h2 class="font-serif text-xl text-wood-900">Lokacija</h2>
+        </div>
+
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div class="sm:col-span-2">
+            <label class="mb-1.5 block text-sm font-medium text-wood-800">Adresa</label>
+            <input
+              type="text"
+              formControlName="address"
+              placeholder="Ulica i broj bb"
+              class="w-full rounded-lg border border-wood-300 bg-white px-4 py-2.5 text-wood-900 focus:border-wood-700 focus:outline-none focus:ring-2 focus:ring-wood-700/20"
+            />
+            @if (hasError('address', 'maxlength')) {
+              <p class="mt-1 text-xs text-red-600">Adresa je preduga (max 255).</p>
+            }
+          </div>
+
+          <div>
+            <label class="mb-1.5 block text-sm font-medium text-wood-800">Grad</label>
+            <input
+              type="text"
+              formControlName="city"
+              placeholder="Sarajevo"
+              class="w-full rounded-lg border border-wood-300 bg-white px-4 py-2.5 text-wood-900 focus:border-wood-700 focus:outline-none focus:ring-2 focus:ring-wood-700/20"
+            />
+          </div>
+
+          <div>
+            <label class="mb-1.5 block text-sm font-medium text-wood-800">Radno vrijeme</label>
+            <input
+              type="text"
+              formControlName="workingHours"
+              placeholder="Pon - Pet: 08:00 - 17:00 · Sub: 09:00 - 13:00"
+              class="w-full rounded-lg border border-wood-300 bg-white px-4 py-2.5 text-wood-900 focus:border-wood-700 focus:outline-none focus:ring-2 focus:ring-wood-700/20"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- KONTAKT -->
+      <section class="rounded-lg border border-wood-200 bg-white p-6 md:p-8">
+        <div class="mb-5 flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-wood-100 text-wood-700">
+            <app-icon name="phone" [size]="20" />
+          </div>
+          <h2 class="font-serif text-xl text-wood-900">Kontakt</h2>
+        </div>
+
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label class="mb-1.5 block text-sm font-medium text-wood-800">Telefon</label>
+            <input
+              type="tel"
+              formControlName="phone"
+              placeholder="+387 61 000 000"
+              class="w-full rounded-lg border border-wood-300 bg-white px-4 py-2.5 text-wood-900 focus:border-wood-700 focus:outline-none focus:ring-2 focus:ring-wood-700/20"
+            />
+            <p class="mt-1 text-xs text-wood-500">Postaje klikabilan tel: link na sajtu.</p>
+          </div>
+
+          <div>
+            <label class="mb-1.5 block text-sm font-medium text-wood-800">Email</label>
+            <input
+              type="email"
+              formControlName="email"
+              placeholder="info@stolarija-sikanjic.com"
+              class="w-full rounded-lg border border-wood-300 bg-white px-4 py-2.5 text-wood-900 focus:border-wood-700 focus:outline-none focus:ring-2 focus:ring-wood-700/20"
+              [class.border-red-500]="hasError('email', 'email')"
+            />
+            @if (hasError('email', 'email')) {
+              <p class="mt-1 text-xs text-red-600">Email format nije ispravan.</p>
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- DRUŠTVENE MREŽE -->
+      <section class="rounded-lg border border-wood-200 bg-white p-6 md:p-8">
+        <div class="mb-5 flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-wood-100 text-wood-700">
+            <app-icon name="instagram" [size]="20" />
+          </div>
+          <h2 class="font-serif text-xl text-wood-900">Društvene mreže</h2>
+        </div>
+
+        <div class="space-y-5">
+          <div>
+            <label class="mb-1.5 block text-sm font-medium text-wood-800">Instagram URL</label>
+            <input
+              type="url"
+              formControlName="instagramUrl"
+              placeholder="https://instagram.com/stolarija_sikanjic"
+              class="w-full rounded-lg border border-wood-300 bg-white px-4 py-2.5 text-wood-900 focus:border-wood-700 focus:outline-none focus:ring-2 focus:ring-wood-700/20"
+              [class.border-red-500]="hasError('instagramUrl', 'pattern')"
+            />
+            @if (hasError('instagramUrl', 'pattern')) {
+              <p class="mt-1 text-xs text-red-600">URL mora počinjati sa http:// ili https://</p>
+            }
+          </div>
+
+          <div>
+            <label class="mb-1.5 block text-sm font-medium text-wood-800">Facebook URL <span class="text-wood-500">(opciono)</span></label>
+            <input
+              type="url"
+              formControlName="facebookUrl"
+              placeholder="https://facebook.com/..."
+              class="w-full rounded-lg border border-wood-300 bg-white px-4 py-2.5 text-wood-900 focus:border-wood-700 focus:outline-none focus:ring-2 focus:ring-wood-700/20"
+              [class.border-red-500]="hasError('facebookUrl', 'pattern')"
+            />
+            @if (hasError('facebookUrl', 'pattern')) {
+              <p class="mt-1 text-xs text-red-600">URL mora počinjati sa http:// ili https://</p>
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer akcije -->
+      <div class="flex flex-wrap items-center justify-between gap-4 border-t border-wood-200 pt-6">
+        @if (lastUpdated()) {
+          <p class="text-xs text-wood-500">
+            Posljednja izmjena: {{ lastUpdated() | date: 'dd.MM.yyyy HH:mm' }}
+          </p>
+        }
+
+        <div class="flex gap-3">
+          <button
+            type="button"
+            (click)="load()"
+            [disabled]="saving()"
+            class="rounded-lg px-5 py-2.5 text-sm font-medium text-wood-700 transition-colors hover:bg-wood-100 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Odbaci izmjene
+          </button>
+          <button
+            type="submit"
+            [disabled]="saving()"
+            class="btn-primary disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            @if (saving()) {
+              <div class="h-4 w-4 animate-spin rounded-full border-2 border-wood-50 border-t-transparent"></div>
+              Snimanje...
+            } @else {
+              <app-icon name="check" [size]="18" />
+              Sačuvaj izmjene
+            }
+          </button>
+        </div>
+      </div>
+    </form>
+  }
+</div>

@@ -81,6 +81,12 @@ export const routes: Routes = [
           import('./admin/contact-admin/contact-admin.component').then((m) => m.ContactAdminComponent),
         title: 'Upiti — Admin',
       },
+      {
+        path: 'postavke',
+        loadComponent: () =>
+          import('./admin/settings-admin/settings-admin.component').then((m) => m.SettingsAdminComponent),
+        title: 'Postavke — Admin',
+      },
     ],
   },
 
