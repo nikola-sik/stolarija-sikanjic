@@ -1,11 +1,13 @@
-<!-- Mobile toggle button (vidi se samo na mobile-u) -->
-<button
-  (click)="toggleMobile()"
-  class="fixed left-4 top-4 z-50 flex h-11 w-11 items-center justify-center rounded-lg bg-wood-900 text-wood-50 shadow-lg lg:hidden"
-  aria-label="Otvori meni"
->
-  <app-icon name="layout-panel-left" [size]="22" />
-</button>
+<!-- Mobile "otvori meni" dugme - vidi se samo kad je sidebar zatvoren -->
+@if (!mobileOpen()) {
+  <button
+    (click)="toggleMobile()"
+    class="fixed left-4 top-4 z-50 flex h-11 w-11 items-center justify-center rounded-lg bg-wood-900 text-wood-50 shadow-lg lg:hidden"
+    aria-label="Otvori meni"
+  >
+    <app-icon name="layout-panel-left" [size]="22" />
+  </button>
+}
 
 <!-- Backdrop na mobile-u -->
 @if (mobileOpen()) {
@@ -21,7 +23,7 @@
   [class.translate-x-0]="mobileOpen()"
   [class.-translate-x-full]="!mobileOpen()"
 >
-  <!-- Logo + business name -->
+  <!-- Logo + business name + close (X) dugme samo na mobile-u -->
   <div class="flex items-center gap-3 border-b border-wood-800 px-6 py-5">
     <img
       [src]="business()?.logo"
@@ -30,14 +32,22 @@
       height="40"
       class="h-10 w-10 rounded-full object-cover ring-1 ring-wood-700"
     />
-    <div class="flex flex-col leading-none">
-      <span class="font-serif text-lg font-medium text-wood-50">
+    <div class="flex min-w-0 flex-1 flex-col leading-none">
+      <span class="truncate font-serif text-lg font-medium text-wood-50">
         {{ business()?.shortName }}
       </span>
       <span class="mt-0.5 text-[10px] uppercase tracking-[0.2em] text-wood-400">
         Admin panel
       </span>
     </div>
+    <!-- Close dugme - samo na mobile-u -->
+    <button
+      (click)="closeMobile()"
+      class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded text-wood-300 transition-colors hover:bg-wood-800 hover:text-wood-50 lg:hidden"
+      aria-label="Zatvori meni"
+    >
+      <app-icon name="x" [size]="20" />
+    </button>
   </div>
 
   <!-- Menu -->
